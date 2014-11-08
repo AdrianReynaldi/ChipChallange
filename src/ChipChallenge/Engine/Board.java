@@ -6,8 +6,10 @@
 package ChipChallenge.Engine;
 
 /**
- *
- * @author Win8
+ * Kelas yang merepresentasikan papan permainan pada permainan Chip Challenge
+ * @author Adrian Reynaldi(2013730058)
+ * @author Enricofindley  (2013730008)
+ * @author Yohanes Ediwan (2013730044)
  */
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -15,28 +17,73 @@ import javax.swing.JPanel;
 
 public class Board extends JPanel {
 
+    /**
+     * Panjang papan permainan
+     */
     public int panjang;
+    
+    /**
+     * Lebar papan permainan
+     */
     public int lebar;
-    public Component finish;
-    public Component barrier;
-    public Component hint;
-    public Component player;
-    public Component[] IC;
-    public Component[] fire;
-    public Component[] wall;
+    
+    /**
+     * Kotak finish
+     */
+    public Finish finish;
+    
+    /**
+     * Penghalang chip sebelum masuk ke finish
+     */
+    public Barrier barrier;
+    
+    /**
+     * Pemain permainan
+     */
+    public Chip player;
+    
+    /**
+     * IC sebagai syarat pembuka barrier
+     */
+    public Component[] ic;
+    
+    /**
+     * Api yang membuat permainan berakhir
+     */
+    public Fire[] fire;
+    
+    /**
+     * dinding penghlang chip berjalan 
+     */
+    public Wall[] wall;
 
-    public Board(int panjang, int lebar, Component finish, Component barrier, Component hint, Component player, Component[] IC, Component[] fire, Component[] wall) {
+    /**
+     * Constructor yang menginisialisasi atribut
+     * @param panjang panjang papan permainan
+     * @param lebar lebar papan permainan
+     * @param finish kotak finish
+     * @param barrier penghalang chip sebelum masuk ke finish
+     * @param player pemain permainan
+     * @param IC ic sebagai syarat pembuka barrier
+     * @param fire api yang membuat permainan berakhir
+     * @param wall dinding penghalang chip berjalan 
+     */
+    public Board(int panjang, int lebar, Finish finish, Barrier barrier, Chip player, Component[] ic, Fire[] fire, Wall[] wall) {
         this.panjang = panjang;
         this.lebar = lebar;
         this.finish = finish;
         this.barrier = barrier;
-        this.hint = hint;
         this.player = player;
-        this.IC = IC;
+        this.ic = ic;
         this.fire = fire;
         this.wall = wall;
+        
     }
 
+    /**
+     * Method untuk menggambar komponen-komponen dalam permainan
+     * @param g grafik
+     */
     @Override
     public void paint(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
@@ -47,10 +94,9 @@ public class Board extends JPanel {
         }
         this.draw(g, finish);
         this.draw(g, barrier);
-        this.draw(g, hint);
         this.draw(g, player);
-        for (int i = 0; i < IC.length; i++) {
-            this.draw(g, IC[i]);
+        for (int i = 0; i < ic.length; i++) {
+            this.draw(g, ic[i]);
         }
         for (int i = 0; i < fire.length; i++) {
             this.draw(g, fire[i]);
@@ -60,9 +106,16 @@ public class Board extends JPanel {
         }
     }
 
+    /**
+     * Menampilkan semua hasil dari method paint
+     * @param g grafik
+     * @param component komponen dalam permainan  
+     */
     public void draw(Graphics g, Component component) {
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(component.getWarna());
-        g2d.fillRect(component.getX() * 50, component.getY() * 50, 50, 50);
+        g2d.setColor(component.getWarna());//replace ama image
+        g2d.fillRect(component.getX() * 50, component.getY() * 50, 50, 50);//replace ama image
     }
+    
+    
 }
