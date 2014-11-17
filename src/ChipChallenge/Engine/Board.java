@@ -6,116 +6,111 @@
 package ChipChallenge.Engine;
 
 /**
- * Kelas yang merepresentasikan papan permainan pada permainan Chip Challenge
- * @author Adrian Reynaldi(2013730058)
- * @author Enricofindley  (2013730008)
- * @author Yohanes Ediwan (2013730044)
+ *
+ * @author Win8
  */
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 public class Board extends JPanel {
 
-    /**
-     * Panjang papan permainan
-     */
     public int panjang;
-    
-    /**
-     * Lebar papan permainan
-     */
     public int lebar;
-    
-    /**
-     * Kotak finish
-     */
-    public Finish finish;
-    
-    /**
-     * Penghalang chip sebelum masuk ke finish
-     */
-    public Barrier barrier;
-    
-    /**
-     * Pemain permainan
-     */
-    public Chip player;
-    
-    /**
-     * IC sebagai syarat pembuka barrier
-     */
-    public Component[] ic;
-    
-    /**
-     * Api yang membuat permainan berakhir
-     */
-    public Fire[] fire;
-    
-    /**
-     * dinding penghlang chip berjalan 
-     */
-    public Wall[] wall;
+    public Component finish;
+    public Component barrier;
+    public Component hint;
+    public Component player;
+    public Component waterBoots;
+    public Component fireBoots;
+    public Component[] IC;
+    public Component[] fire;
+    public Component[] water;
+    public Component[] wall;
 
-    /**
-     * Constructor yang menginisialisasi atribut
-     * @param panjang panjang papan permainan
-     * @param lebar lebar papan permainan
-     * @param finish kotak finish
-     * @param barrier penghalang chip sebelum masuk ke finish
-     * @param player pemain permainan
-     * @param IC ic sebagai syarat pembuka barrier
-     * @param fire api yang membuat permainan berakhir
-     * @param wall dinding penghalang chip berjalan 
-     */
-    public Board(int panjang, int lebar, Finish finish, Barrier barrier, Chip player, Component[] ic, Fire[] fire, Wall[] wall) {
+    public Board(int panjang, int lebar) {
         this.panjang = panjang;
         this.lebar = lebar;
-        this.finish = finish;
-        this.barrier = barrier;
-        this.player = player;
-        this.ic = ic;
-        this.fire = fire;
-        this.wall = wall;
-        
     }
 
-    /**
-     * Method untuk menggambar komponen-komponen dalam permainan
-     * @param g grafik
-     */
     @Override
     public void paint(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
+        g2d.setColor(Color.white);
         for (int i = 0; i < panjang; i++) {
             for (int j = 0; j < lebar; j++) {
-                g2d.drawRoundRect(i * 50, j * 50, 50, 50, 10, 10);
+                g2d.fill3DRect(i * 50 + 50, j * 50 + 50, 50, 50, true);
             }
         }
         this.draw(g, finish);
         this.draw(g, barrier);
-        this.draw(g, player);
-        for (int i = 0; i < ic.length; i++) {
-            this.draw(g, ic[i]);
+        this.draw(g, hint);
+        for (int i = 0; i < IC.length; i++) 
+        {
+            this.draw(g, IC[i]);
         }
-        for (int i = 0; i < fire.length; i++) {
+        for (int i = 0; i < fire.length; i++) 
+        {
             this.draw(g, fire[i]);
         }
-        for (int i = 0; i < wall.length; i++) {
+        for (int i = 0; i < water.length; i++) 
+        {
+            this.draw(g, water[i]);
+        }
+        for (int i = 0; i < wall.length; i++) 
+        {
             this.draw(g, wall[i]);
         }
+        this.draw(g, player);
+        this.draw(g, waterBoots);
+        this.draw(g, fireBoots);
     }
 
-    /**
-     * Menampilkan semua hasil dari method paint
-     * @param g grafik
-     * @param component komponen dalam permainan  
-     */
     public void draw(Graphics g, Component component) {
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(component.getWarna());//replace ama image
-        g2d.fillRect(component.getX() * 50, component.getY() * 50, 50, 50);//replace ama image
+        g2d.setColor(component.getWarna());
+        g2d.fillRect(component.getX() * 50 + 50, component.getY() * 50 + 50, 50, 50);
+    }
+
+    public void setFinish(Component finish) {
+        this.finish = finish;
+    }
+
+    public void setBarrier(Component barrier) {
+        this.barrier = barrier;
+    }
+
+    public void setHint(Component hint) {
+        this.hint = hint;
+    }
+
+    public void setPlayer(Component player) {
+        this.player = player;
     }
     
+    public void setWaterBoots(Component waterBoots)
+    {
+        this.waterBoots = waterBoots;
+    }
     
+    public void setFireBoots(Component fireBoots) {
+        this.fireBoots = fireBoots;
+    }
+
+    public void setIC(Component[] IC) {
+        this.IC = IC;
+    }
+
+    public void setFire(Component[] fire) {
+        this.fire = fire;
+    }
+
+    public void setWater(Component[] water) {
+        this.water = water;
+    }
+    
+    public void setWall(Component[] wall) {
+        this.wall = wall;
+    }
 }
