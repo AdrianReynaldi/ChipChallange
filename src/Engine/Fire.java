@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package ChipChallenge.Engine;
+package Engine;
 
 import java.awt.Color;
 

@@ -4,20 +4,29 @@
  * and open the template in the editor.
  */
 
-package ChipChallenge.Engine;
+package Engine;
 
 import java.awt.Color;
 
 /**
- * Penghalang chip berjalan
+ * Penghalang chip sebelum masuk ke finish
  * @author Adrian Reynaldi(2013730058)
  * @author Enricofindley  (2013730008)
  * @author Yohanes Ediwan (2013730044)
  */
-public class Wall extends Component {
+public class Barrier extends Component {
 
-    public Wall(int x, int y, Color warna) {
+    public Barrier(int x, int y, Color warna) {
         super(x, y, warna);
     }
     
+    public boolean breakBarrier(Component[] ic)
+    {
+        boolean breakBarrier = false;
+        if(ic.length == 0)
+        {
+            breakBarrier = true;
+        }
+        return breakBarrier;
+    }
 }

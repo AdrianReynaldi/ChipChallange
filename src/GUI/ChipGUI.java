@@ -3,18 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ChipChallenge.Engine;
+package GUI;
 
+import Engine.Barrier;
+import Engine.Board;
+import Engine.Chip;
+import Engine.Component;
+import Engine.Finish;
+import Engine.Fire;
+import Engine.IC;
 import java.awt.*;
-import javax.swing.JFrame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 /**
  *
  * @author Win8
  */
-public class ChipGUI extends javax.swing.JFrame {
+public class ChipGUI extends javax.swing.JFrame implements ActionListener, KeyListener {
 
-    Board b;
+    private Board b;
 
     /**
      * Creates new form ChipGUI
@@ -23,6 +33,9 @@ public class ChipGUI extends javax.swing.JFrame {
         initComponents();
         setBoard();
         this.repaint();
+        addKeyListener(this);
+        this.setFocusable(true);
+        setFocusTraversalKeysEnabled(false);
     }
 
     @Override
@@ -39,7 +52,6 @@ public class ChipGUI extends javax.swing.JFrame {
         this.setFireBoots(true, true);
         this.setFire();
         this.setWater();
-        this.setHint();
         boolean[] emerge = {true, true, true, true, true};
         this.setIC(emerge);
         this.setPlayer(4, 4);
@@ -50,105 +62,91 @@ public class ChipGUI extends javax.swing.JFrame {
     }
 
     public void setFinish() {
-        Component finish = new Component(4, 0, Color.BLACK);
+        Finish finish = new Finish(4, 0, Color.BLACK);
         b.setFinish(finish);
     }
 
     public void setBarrier(boolean appears) {
-        Component barrier;
+        Barrier barrier;
         if (appears == true) {
-            barrier = new Component(4, 1, Color.MAGENTA);
+            barrier = new Barrier(4, 1, Color.MAGENTA);
         } else {
-            barrier = new Component(-2, -2, Color.MAGENTA);
+            barrier = new Barrier(-2, -2, Color.MAGENTA);
         }
         b.setBarrier(barrier);
     }
 
-    public void setHint() {
-        Component hint = new Component(4, 3, Color.YELLOW);
-        b.setHint(hint);
-    }
-
     public void setPlayer(int x, int y) {
-        Component player = new Component(x, y, Color.GREEN);
+        Chip player = new Chip(x, y, Color.GREEN);
         b.setPlayer(player);
     }
 
-    public void setWaterBoots(boolean emerge, boolean die)
-    {
+    public void setWaterBoots(boolean emerge, boolean die) {
         Component waterBoots;
-        if(emerge == true)
-        {
+        if (emerge == true) {
             waterBoots = new Component(0, 0, Color.blue);
-        }
-        else
-        {
+        } else {
             waterBoots = new Component(-5, -5, Color.blue);
             die = false;
         }
         b.setWaterBoots(waterBoots);
     }
-    
-    public void setFireBoots(boolean emerge, boolean die)
-    {
+
+    public void setFireBoots(boolean emerge, boolean die) {
         Component fireBoots;
-        if(emerge == true)
-        {
+        if (emerge == true) {
             fireBoots = new Component(3, 8, Color.red);
-        }
-        else
-        {
+        } else {
             fireBoots = new Component(-3, -3, Color.red);
             die = false;
         }
         b.setFireBoots(fireBoots);
     }
-    
+
     public void setIC(boolean[] emerge) {
-        Component[] IC = new Component[5];
+        IC[] IC = new IC[5];
         if (emerge[0] == true) {
-            IC[0] = new Component(1, 0, Color.GRAY);
+            IC[0] = new IC(1, 0, Color.GRAY);
         } else {
-            IC[0] = new Component(-2, -2, Color.MAGENTA);
+            IC[0] = new IC(-2, -2, Color.MAGENTA);
         }
         if (emerge[1] == true) {
-            IC[1] = new Component(7, 0, Color.GRAY);
+            IC[1] = new IC(7, 0, Color.GRAY);
 
         } else {
-            IC[1] = new Component(-2, -2, Color.MAGENTA);
+            IC[1] = new IC(-2, -2, Color.MAGENTA);
         }
         if (emerge[2] == true) {
-            IC[2] = new Component(2, 4, Color.GRAY);
+            IC[2] = new IC(2, 4, Color.GRAY);
         } else {
-            IC[2] = new Component(-2, -2, Color.MAGENTA);
+            IC[2] = new IC(-2, -2, Color.MAGENTA);
         }
         if (emerge[3] == true) {
-            IC[3] = new Component(4, 6, Color.GRAY);
+            IC[3] = new IC(4, 6, Color.GRAY);
         } else {
-            IC[3] = new Component(-2, -2, Color.MAGENTA);
+            IC[3] = new IC(-2, -2, Color.MAGENTA);
         }
         if (emerge[4] == true) {
-            IC[4] = new Component(6, 4, Color.GRAY);
+            IC[4] = new IC(6, 4, Color.GRAY);
         } else {
-            IC[4] = new Component(-2, -2, Color.MAGENTA);
+            IC[4] = new IC(-2, -2, Color.MAGENTA);
         }
         b.setIC(IC);
     }
 
     public void setFire() {
-        Component[] fire = new Component[7];
-        fire[0] = new Component(3, 2, Color.RED);
-        fire[1] = new Component(4, 2, Color.RED);
-        fire[2] = new Component(2, 2, Color.RED);
-        fire[3] = new Component(1, 2, Color.RED);
-        fire[4] = new Component(0, 2, Color.RED);
-        fire[5] = new Component(2, 1, Color.RED);
-        fire[6] = new Component(2, 0, Color.RED);
+        Fire[] fire = new Fire[7];
+        fire[0] = new Fire(3, 2, Color.RED);
+        fire[1] = new Fire(4, 2, Color.RED);
+        fire[2] = new Fire(2, 2, Color.RED);
+        fire[3] = new Fire(1, 2, Color.RED);
+        fire[4] = new Fire(0, 2, Color.RED);
+        fire[5] = new Fire(2, 1, Color.RED);
+        fire[6] = new Fire(2, 0, Color.RED);
         b.setFire(fire);
     }
 
-    public void setWater()
-    {
+    public void setWater() {
         Component[] water = new Component[7];
         water[0] = new Component(6, 0, Color.BLUE);
         water[1] = new Component(6, 1, Color.BLUE);
@@ -159,6 +157,7 @@ public class ChipGUI extends javax.swing.JFrame {
         water[6] = new Component(5, 2, Color.BLUE);
         b.setWater(water);
     }
+
     public void setWall() {
         Component[] wall = new Component[26];
         wall[0] = new Component(3, 0, Color.DARK_GRAY);
@@ -199,44 +198,186 @@ public class ChipGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(601, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addContainerGap())
+            .addGap(0, 684, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(62, 62, 62)
-                .addComponent(jButton1)
-                .addContainerGap(465, Short.MAX_VALUE))
+            .addGap(0, 550, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    /**
+     * Method untuk menggerakkan chip
+     *
+     * @param moveKey
+     */
+    @Override
+    public void keyPressed(KeyEvent moveKey) {
+        int arrowKey = moveKey.getKeyCode();
+        int x = b.player.getX();
+        int y = b.player.getY();
+        if(x==8 && y==8)
+        {
+                if (arrowKey == KeyEvent.VK_LEFT) {
+                    moveLeft();
+                }
+                else if (arrowKey == KeyEvent.VK_UP) {
+                    moveUp();
+                }
+       
+        }else if(x==0 && y==8)
+        {
+                if (arrowKey == KeyEvent.VK_RIGHT) {
+                    moveRight();
+                }
+                else if (arrowKey == KeyEvent.VK_UP) {
+                    moveUp();
+                }
+       
+        }
+        else if(x>7)
+        {
+            if(y<=0)
+            {
+                if (arrowKey == KeyEvent.VK_LEFT) {
+                    moveLeft();
+                }
+                else if (arrowKey == KeyEvent.VK_DOWN) {
+                    moveDown();
+                } 
+            }
+            else
+            {
+                 if (arrowKey == KeyEvent.VK_UP) {
+                    moveUp();
+            } else if (arrowKey == KeyEvent.VK_DOWN) {
+                moveDown();
+            } 
+            else if (arrowKey == KeyEvent.VK_LEFT) {
+                moveLeft();
+            }
+            }
+           
+        }
+        else if(x<=0)
+        {
+            if(y<=0)
+            {
+                if (arrowKey == KeyEvent.VK_RIGHT) {
+                    moveRight();
+                }
+                else if (arrowKey == KeyEvent.VK_DOWN) {
+                    moveDown();
+                } 
+            }
+            else
+            {
+                if (arrowKey == KeyEvent.VK_UP) {
+                moveUp();
+            } else if (arrowKey == KeyEvent.VK_DOWN) {
+                moveDown();
+            } 
+            else if (arrowKey == KeyEvent.VK_RIGHT) {
+                moveRight();
+            }
+            }
+            
+        }
+        else if(y>7)
+        {
+            if (arrowKey == KeyEvent.VK_UP) {
+                moveUp();
+            }  else if (arrowKey == KeyEvent.VK_RIGHT) {
+                moveRight();
+            } else if (arrowKey == KeyEvent.VK_LEFT) {
+                moveLeft();
+            }
+        }
+        else if(y<=0)
+        {
+            if (arrowKey == KeyEvent.VK_DOWN) {
+                moveDown();
+            } else if (arrowKey == KeyEvent.VK_RIGHT) {
+                moveRight();
+            } else if (arrowKey == KeyEvent.VK_LEFT) {
+                moveLeft();
+            }
+        }
+        else
+        {
+            if (arrowKey == KeyEvent.VK_UP) {
+                moveUp();
+            }  else if (arrowKey == KeyEvent.VK_RIGHT) {
+                moveRight();
+            } else if (arrowKey == KeyEvent.VK_LEFT) {
+                moveLeft();
+            }
+             else if (arrowKey == KeyEvent.VK_DOWN) {
+                moveDown();
+            } 
+        }
+
+    }
+
+    /**
+     * Method untuk menggerakkan chip ke atas
+     */
+    public void moveUp() {
+        int x = b.player.getX();
+        int y = b.player.getY();
+        this.setPlayer(x, y - 1);
+        this.setBarrier(false);
+        this.repaint();
+    }
+
+    /**
+     * Method untuk menggerakkan chip ke bawah
+     */
+    public void moveDown() {
+        int x = b.player.getX();
+        int y = b.player.getY();
+        this.setPlayer(x, y + 1);
+        this.setBarrier(false);
+        this.repaint();
+    }
+
+    /**
+     * Method untuk menggerakkan chip ke kiri
+     */
+    public void moveLeft() {
+        int x = b.player.getX();
+        int y = b.player.getY();
+        this.setPlayer(x-1, y);
+        this.setBarrier(false);
+        this.repaint();
+    }
+
+    /**
+     * Method untuk menggerakkan chip ke bawah
+     */
+    public void moveRight() {
         int x = b.player.getX();
         int y = b.player.getY();
         this.setPlayer(x + 1, y);
         this.setBarrier(false);
         this.repaint();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+    }
 
     /**
      * @param args the command line arguments
@@ -274,6 +415,9 @@ public class ChipGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     // End of variables declaration//GEN-END:variables
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+    }
 }

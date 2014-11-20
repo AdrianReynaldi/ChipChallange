@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ChipChallenge.Engine;
+package Engine;
 
 /**
  *
@@ -18,14 +18,13 @@ public class Board extends JPanel {
 
     public int panjang;
     public int lebar;
-    public Component finish;
-    public Component barrier;
-    public Component hint;
-    public Component player;
+    public Finish finish;
+    public Barrier barrier;
+    public Chip player;
     public Component waterBoots;
     public Component fireBoots;
-    public Component[] IC;
-    public Component[] fire;
+    public IC[] IC;
+    public Fire[] fire;
     public Component[] water;
     public Component[] wall;
 
@@ -45,7 +44,6 @@ public class Board extends JPanel {
         }
         this.draw(g, finish);
         this.draw(g, barrier);
-        this.draw(g, hint);
         for (int i = 0; i < IC.length; i++) 
         {
             this.draw(g, IC[i]);
@@ -73,19 +71,15 @@ public class Board extends JPanel {
         g2d.fillRect(component.getX() * 50 + 50, component.getY() * 50 + 50, 50, 50);
     }
 
-    public void setFinish(Component finish) {
+    public void setFinish(Finish finish) {
         this.finish = finish;
     }
 
-    public void setBarrier(Component barrier) {
+    public void setBarrier(Barrier barrier) {
         this.barrier = barrier;
     }
 
-    public void setHint(Component hint) {
-        this.hint = hint;
-    }
-
-    public void setPlayer(Component player) {
+    public void setPlayer(Chip player) {
         this.player = player;
     }
     
@@ -98,11 +92,11 @@ public class Board extends JPanel {
         this.fireBoots = fireBoots;
     }
 
-    public void setIC(Component[] IC) {
+    public void setIC(IC[] IC) {
         this.IC = IC;
     }
 
-    public void setFire(Component[] fire) {
+    public void setFire(Fire[] fire) {
         this.fire = fire;
     }
 

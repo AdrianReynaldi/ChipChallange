@@ -4,20 +4,26 @@
  * and open the template in the editor.
  */
 
-package ChipChallenge.Engine;
+package Engine;
 
 import java.awt.Color;
 
 /**
- * Integrated Circuit sebagai syarat hancurnya barrier
+ * Kelas yang menggambarkan Chip yaitu pemain dalam sebuah game Chip Challenge
  * @author Adrian Reynaldi(2013730058)
  * @author Enricofindley  (2013730008)
  * @author Yohanes Ediwan (2013730044)
  */
-public class IC extends Component{
+public class Chip extends Component {
 
-    public IC(int x, int y, Color warna) {
+    /**
+     * Constructor yang menginisialisasi parameter yang dimiliki oleh super class
+     * @param x nilai x
+     * @param y nilai y
+     * @param warna warna dari chip
+     */
+    public Chip(int x, int y, Color warna) {
         super(x, y, warna);
     }
-    
+ 
 }

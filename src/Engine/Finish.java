@@ -4,29 +4,29 @@
  * and open the template in the editor.
  */
 
-package ChipChallenge.Engine;
+package Engine;
 
 import java.awt.Color;
 
 /**
- * Penghalang chip sebelum masuk ke finish
+ * Jalan keluar dalam permainan chip challenge
  * @author Adrian Reynaldi(2013730058)
  * @author Enricofindley  (2013730008)
  * @author Yohanes Ediwan (2013730044)
  */
-public class Barrier extends Component {
+public class Finish extends Component{
 
-    public Barrier(int x, int y, Color warna) {
+    public Finish(int x, int y, Color warna) {
         super(x, y, warna);
     }
     
-    public boolean breakBarrier(Component[] ic)
+    public boolean chk(Chip player)
     {
-        boolean breakBarrier = false;
-        if(ic.length == 0)
+        boolean win  = false;
+        if((player.getX()==this.getX())&&(player.getY()== this.getY()))
         {
-            breakBarrier = true;
+            win = true;
         }
-        return breakBarrier;
+        return win;
     }
 }

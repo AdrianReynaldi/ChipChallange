@@ -4,18 +4,20 @@
  * and open the template in the editor.
  */
 
-package ChipChallenge.GUI;
+package Engine;
+
+import java.awt.Color;
 
 /**
- * Kelas untuk menjalankan permainan
+ * Integrated Circuit sebagai syarat hancurnya barrier
  * @author Adrian Reynaldi(2013730058)
  * @author Enricofindley  (2013730008)
  * @author Yohanes Ediwan (2013730044)
  */
-public class GameExecutor {
-    public static void main(String[] args)
-    {
-        Level1 lv1 = new Level1();
-        lv1.executeLv1();
+public class IC extends Component{
+
+    public IC(int x, int y, Color warna) {
+        super(x, y, warna);
     }
+    
 }
