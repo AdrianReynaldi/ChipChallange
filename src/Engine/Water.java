@@ -6,32 +6,19 @@
 
 package ChipChallenge.Engine;
 
-import java.awt.Color;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
 /**
- * Pembunuh chip jika chip menginjak fire
- * @author Adrian Reynaldi(2013730058)
- * @author Enricofindley  (2013730008)
- * @author Yohanes Ediwan (2013730044)
+ *
+ * @author Adrian
  */
-public class Fire extends Component {
-
+public class Water extends Component {
+    
     protected ImageIcon image;
-    public Fire(int x, int y) {
+    public Water(int x, int y) {
         super(x, y);
         this.image=new ImageIcon("C:\\Users\\Adrian\\Documents\\Tugas\\ADBO\\ChipChallange\\gambar\\IC.png");
-    }
-    
-    public boolean chk(Chip player)
-    {
-        boolean lose  = false;
-        if((player.getX()==this.getX())&&(player.getY()== this.getY()))
-        {
-            lose = true;
-        }
-        return lose;
     }
     
     @Override

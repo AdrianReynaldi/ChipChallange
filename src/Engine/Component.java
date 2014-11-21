@@ -4,24 +4,26 @@
  * and open the template in the editor.
  */
 
-package Engine;
+package ChipChallenge.Engine;
 
 import java.awt.Color;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 
 /**
  *
  * @author Win8
  */
-public class Component 
+public abstract class  Component 
 {
-    private int x;
-    private int y;
-    private Color warna;
+    protected int x;
+    protected int y;
+    protected ImageIcon gambar;
 
-    public Component(int x, int y, Color warna) {
+    public Component(int x, int y) {
         this.x = x;
         this.y = y;
-        this.warna = warna;
+        this.gambar = gambar;
     }
 
     public int getX() {
@@ -40,11 +42,7 @@ public class Component
         this.y = y;
     }
 
-    public Color getWarna() {
-        return warna;
-    }
+    public abstract Image getGambar();
 
-    public void setWarna(Color warna) {
-        this.warna = warna;
-    }
+    public abstract void setGambar(ImageIcon gambar) ;
 }

@@ -4,9 +4,11 @@
  * and open the template in the editor.
  */
 
-package Engine;
+package ChipChallenge.Engine;
 
 import java.awt.Color;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 
 /**
  * Jalan keluar dalam permainan chip challenge
@@ -16,8 +18,10 @@ import java.awt.Color;
  */
 public class Finish extends Component{
 
-    public Finish(int x, int y, Color warna) {
-        super(x, y, warna);
+    protected ImageIcon image;
+    public Finish(int x, int y) {
+        super(x, y);
+        this.image=new ImageIcon("C:\\Users\\Adrian\\Documents\\Tugas\\ADBO\\ChipChallange\\gambar\\Finish.png");
     }
     
     public boolean chk(Chip player)
@@ -28,5 +32,16 @@ public class Finish extends Component{
             win = true;
         }
         return win;
+    }
+    
+    @Override
+    public Image getGambar() {
+        Image img=this.image.getImage();
+        return img;
+    }
+
+    @Override
+    public void setGambar(ImageIcon gambar) {
+        this.gambar=gambar;
     }
 }

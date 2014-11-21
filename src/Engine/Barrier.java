@@ -4,9 +4,11 @@
  * and open the template in the editor.
  */
 
-package Engine;
+package ChipChallenge.Engine;
 
 import java.awt.Color;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 
 /**
  * Penghalang chip sebelum masuk ke finish
@@ -16,8 +18,10 @@ import java.awt.Color;
  */
 public class Barrier extends Component {
 
-    public Barrier(int x, int y, Color warna) {
-        super(x, y, warna);
+    private ImageIcon image;
+    public Barrier(int x, int y) {
+        super(x, y);
+        image=new ImageIcon("C:\\Users\\Adrian\\Documents\\Tugas\\ADBO\\ChipChallange\\gambar\\Wall.jpg");
     }
     
     public boolean breakBarrier(Component[] ic)
@@ -28,5 +32,16 @@ public class Barrier extends Component {
             breakBarrier = true;
         }
         return breakBarrier;
+    }
+
+    @Override
+    public Image getGambar() {
+        Image img=this.image.getImage();
+        return img;
+    }
+
+    @Override
+    public void setGambar(ImageIcon gambar) {
+        this.gambar=gambar;
     }
 }

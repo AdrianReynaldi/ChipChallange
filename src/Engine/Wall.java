@@ -4,9 +4,11 @@
  * and open the template in the editor.
  */
 
-package Engine;
+package ChipChallenge.Engine;
 
 import java.awt.Color;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 
 /**
  * Penghalang chip berjalan
@@ -15,9 +17,21 @@ import java.awt.Color;
  * @author Yohanes Ediwan (2013730044)
  */
 public class Wall extends Component {
+    protected ImageIcon image;
 
-    public Wall(int x, int y, Color warna) {
-        super(x, y, warna);
+    public Wall(int x, int y) {
+        super(x, y);
+        this.image=new ImageIcon("C:\\Users\\Adrian\\Documents\\Tugas\\ADBO\\ChipChallange\\gambar\\Wall.jpg");
     }
     
+   @Override
+    public Image getGambar() {
+        Image img=this.image.getImage();
+        return img;
+    }
+
+    @Override
+    public void setGambar(ImageIcon gambar) {
+        this.gambar=gambar;
+    }
 }

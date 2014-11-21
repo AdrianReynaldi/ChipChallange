@@ -4,9 +4,11 @@
  * and open the template in the editor.
  */
 
-package Engine;
+package ChipChallenge.Engine;
 
 import java.awt.Color;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 
 /**
  * Integrated Circuit sebagai syarat hancurnya barrier
@@ -16,8 +18,20 @@ import java.awt.Color;
  */
 public class IC extends Component{
 
-    public IC(int x, int y, Color warna) {
-        super(x, y, warna);
+    private ImageIcon image;
+    public IC(int x, int y) {
+        super(x, y);
+        image=new ImageIcon("C:\\Users\\Adrian\\Documents\\Tugas\\ADBO\\ChipChallange\\gambar\\IC.png");
     }
     
+    @Override
+    public Image getGambar() {
+        Image img=this.image.getImage();
+        return img;
+    }
+
+    @Override
+    public void setGambar(ImageIcon gambar) {
+        this.gambar=gambar;
+    }
 }

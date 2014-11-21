@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Engine;
+package ChipChallenge.Engine;
 
 /**
  *
@@ -12,19 +12,23 @@ package Engine;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Shape;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 public class Board extends JPanel {
 
     public int panjang;
     public int lebar;
-    public Finish finish;
-    public Barrier barrier;
-    public Chip player;
+    public Component finish;
+    public Component barrier;
+    public Component hint;
+    public Component player;
     public Component waterBoots;
     public Component fireBoots;
-    public IC[] IC;
-    public Fire[] fire;
+    public Component[] IC;
+    public Component[] fire;
     public Component[] water;
     public Component[] wall;
 
@@ -36,14 +40,16 @@ public class Board extends JPanel {
     @Override
     public void paint(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(Color.white);
+        ImageIcon image=new ImageIcon("C:\\Users\\Adrian\\Documents\\Tugas\\ADBO\\ChipChallange\\gambar\\Floor.jpg");
+        Image img=image.getImage();
         for (int i = 0; i < panjang; i++) {
             for (int j = 0; j < lebar; j++) {
-                g2d.fill3DRect(i * 50 + 50, j * 50 + 50, 50, 50, true);
+                g2d.drawImage(img, i * 50 + 50, j * 50 + 50, 50, 50, null);
             }
         }
         this.draw(g, finish);
         this.draw(g, barrier);
+       // this.draw(g, hint);
         for (int i = 0; i < IC.length; i++) 
         {
             this.draw(g, IC[i]);
@@ -61,25 +67,29 @@ public class Board extends JPanel {
             this.draw(g, wall[i]);
         }
         this.draw(g, player);
-        this.draw(g, waterBoots);
-        this.draw(g, fireBoots);
+       // this.draw(g, waterBoots);
+        //this.draw(g, fireBoots);
     }
 
     public void draw(Graphics g, Component component) {
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(component.getWarna());
-        g2d.fillRect(component.getX() * 50 + 50, component.getY() * 50 + 50, 50, 50);
+        Image img=component.getGambar();
+        g2d.drawImage(img,component.getX() * 50 + 50, component.getY() * 50 + 50, 50, 50,null);
     }
 
-    public void setFinish(Finish finish) {
+    public void setFinish(Component finish) {
         this.finish = finish;
     }
 
-    public void setBarrier(Barrier barrier) {
+    public void setBarrier(Component barrier) {
         this.barrier = barrier;
     }
 
-    public void setPlayer(Chip player) {
+    public void setHint(Component hint) {
+        this.hint = hint;
+    }
+
+    public void setPlayer(Component player) {
         this.player = player;
     }
     
@@ -100,11 +110,11 @@ public class Board extends JPanel {
         this.fire = fire;
     }
 
-    public void setWater(Component[] water) {
+    public void setWater(Water[] water) {
         this.water = water;
     }
     
-    public void setWall(Component[] wall) {
+    public void setWall(Wall[] wall) {
         this.wall = wall;
     }
 }
