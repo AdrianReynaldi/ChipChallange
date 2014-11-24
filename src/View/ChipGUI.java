@@ -3,30 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package GUI;
+package View;
 
-import Model.Chip;
-import Model.Finish;
-import Model.Fire;
-import Model.Hint;
-import Model.WaterBoot;
-import Model.Barrier;
-import Model.IC;
-import Model.Water;
-import Model.FireBoot;
-import Model.Wall;
-import Engine.*;
+import Controller.Board;
+import Model.*;
 import Model.Component;
 import java.awt.*;
-import java.awt.event.*;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author Win8
+ * GUI permainan chip challenge
+ * @author Adrian Reynaldi(2013730058)
+ * @author Enricofindley  (2013730008)
+ * @author Yohanes Ediwan (2013730044)
  */
 public class ChipGUI extends javax.swing.JFrame {
 
@@ -36,27 +26,54 @@ public class ChipGUI extends javax.swing.JFrame {
     public Component[] wall = new Component[26];
     JFrame conditionFrame;
     public Chip player;
+    public Finish finish;
     public Component fireBoots, waterBoots;
+    public Component Hint;
 
     /**
      * Creates new form ChipGUI
      */
     public ChipGUI() {
         initComponents();
-        nameLabel.setText("Hello, " + JOptionPane.showInputDialog(rootPane, "Enter Your Name", "Start Game", 0));
+        JOptionPane pane = new JOptionPane();
+        pane.showInputDialog(rootPane, "Enter Your Name", "Start Game", 0);
         setBoard();
         this.repaint();
-        this.player=new Chip(4, 4, Color.white, b, this);
+        this.player=new Chip(4, 4, b, this);
         addKeyListener(player);
         this.setFocusable(true);
         setFocusTraversalKeysEnabled(false);
+        this.setVisible(false);
     }
-
+  /**
+   * Override method paint milik JFrame
+   * @param g graphic program
+   */
     @Override
     public void paint(Graphics g) {
         b.paint(g);
     }
 
+    /**
+     * Method untuk memunculkan bantuan untuk menyelesaikan permainan
+     * @param show penanda apakah hint harus muncul atau tidak
+     */
+    public void showHint(boolean show)
+    {
+        if(show == true)
+        {
+            JOptionPane.showMessageDialog(rootPane, "1.Take the fire boots to go through the flames \n2.Take the water boots to go through the water \n3.Collect all the IC to break the barrier ", "Hint", 0);
+        }
+        else
+        {
+            
+        }
+
+    }
+    
+    /**
+     * Setter method untuk papan permainan pada GUI
+     */
     public void setBoard() {
         this.setTitle("Chip Challenge");
         b = (new Board(9, 9));
@@ -72,19 +89,27 @@ public class ChipGUI extends javax.swing.JFrame {
         this.setWall();
         this.add(b);
         this.setSize(720, 600);
-        this.setVisible(true);
     }
 
+    /**
+     * Setter method untuk jalan keluar dalam permainan di GUI
+     */
     public void setFinish() {
-        Component finish = new Finish(4, 0);
+        finish = new Finish(4, 0);
         b.setFinish(finish);
     }
 
+    /**
+     * Setter method untuk bantuan menyelesaikan permainan di GUI
+     */
     private void setHint() {
-        Component hint = new Hint(4, 3);
-        b.setHint(hint);
+        Hint = new Hint(0, 5);
+        b.setHint(Hint);
     }
 
+    /**
+     * Setter method untuk penghalang permainan di GUI
+     */
     public void setBarrier(boolean appears) {
         Component barrier;
         if (appears == true) {
@@ -95,8 +120,9 @@ public class ChipGUI extends javax.swing.JFrame {
         b.setBarrier(barrier);
     }
 
-    
-
+    /**
+     * Setter method untuk sepatu yang membuat pemain dapat melintasi air di GUI
+     */
     public void setWaterBoots(boolean emerge, boolean die) {
         if (emerge == true) {
             waterBoots = new WaterBoot(0, 0);
@@ -107,6 +133,9 @@ public class ChipGUI extends javax.swing.JFrame {
         b.setWaterBoots(waterBoots);
     }
 
+    /**
+     * Setter method untuk sepatu yang membuat pemain dapat melintasi api di GUI
+     */
     public void setFireBoots(boolean emerge, boolean die) {
         if (emerge == true) {
             fireBoots = new FireBoot(3, 8);
@@ -117,6 +146,9 @@ public class ChipGUI extends javax.swing.JFrame {
         b.setFireBoots(fireBoots);
     }
 
+    /**
+     * Setter method untuk ic dalam permainan di GUI
+     */
     public void setIC(boolean[] emerge) {
         Component[] IC = new Component[5];
         if (emerge[0] == true) {
@@ -148,6 +180,9 @@ public class ChipGUI extends javax.swing.JFrame {
         b.setIC(IC);
     }
 
+    /**
+     * Setter method untuk api dalam permainan pada GUI
+     */
     public void setFire() {
         fire[0] = new Fire(3, 2);
         fire[1] = new Fire(4, 2);
@@ -159,6 +194,9 @@ public class ChipGUI extends javax.swing.JFrame {
         b.setFire(fire);
     }
 
+    /**
+     * Setter method untuk air dalam permainan pada GUI
+     */
     public void setWater() {
         water[0] = new Water(6, 0);
         water[1] = new Water(6, 1);
@@ -170,6 +208,9 @@ public class ChipGUI extends javax.swing.JFrame {
         b.setWater(water);
     }
 
+    /**
+     * Setter method untuk penghalang pemain di permainan pada GUI
+     */
     public void setWall() {
         wall[0] = new Wall(3, 0);
         wall[1] = new Wall(5, 0);
@@ -209,67 +250,49 @@ public class ChipGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        nameLabel = new javax.swing.JLabel();
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        nameLabel.setText("Hello");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(598, Short.MAX_VALUE)
-                .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addGap(0, 749, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(422, Short.MAX_VALUE))
+            .addGap(0, 465, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * Method untuk menggerakkan chip
-     *
-     * @param moveKey
+     * Method untuk membuat popup window jika game selesai
+     * @param isWin penanda apakah player menang atau kalah
      */
-    
-
-    public void createConditionFrame() {
-//        conditionFrame = new JFrame("Game Over");
-//        conditionFrame.setVisible(true);
-//        conditionFrame.setSize(720, 480);
-//        conditionFrame.setResizable(false);
-//        JLabel labelCondition = new JLabel("You Lose !!");
-//        conditionFrame.add(labelCondition);
-//        this.setFocusable(false);
-//        JButton tryAgain = new JButton("Try Again");
-//        conditionFrame.add(tryAgain);
-//        tryAgain.setSize(50, 50);
-//        this.setVisible(false);
-        if (JOptionPane.showOptionDialog(rootPane, "Try Again?", "Game Over", 0, 2, null, null, null) == 1) {
-            this.dispose();
-        } else {
-            this.dispose();
-            new ChipGUI().setVisible(true);
+    public void createConditionFrame(boolean isWin) {
+        if(isWin == true)
+        {
+            if (JOptionPane.showOptionDialog(rootPane, "Congratulation !! You Are Win!! \n Do You Want To Play Again ?", "Game Over", 0, 2, null, null, null) == 1) {
+                this.dispose();
+            } 
+            else {
+                this.dispose();
+                new ChipGUI().setVisible(true);
+            }
         }
+        else
+        {
+            if (JOptionPane.showOptionDialog(rootPane, "Try Again?", "Game Over", 0, 2, null, null, null) == 1) {
+                this.dispose();
+            } 
+            else {
+                this.dispose();
+                new ChipGUI().setVisible(true);
+            }
+        }
+        
     }
-
-    /**
-     * Method untuk menggerakkan chip ke atas
-     */
-    
-
-    
-
-    
 
     /**
      * @param args the command line arguments
@@ -307,7 +330,6 @@ public class ChipGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel nameLabel;
     // End of variables declaration//GEN-END:variables
    
 

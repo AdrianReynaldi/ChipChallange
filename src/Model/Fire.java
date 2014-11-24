@@ -6,7 +6,6 @@
 
 package Model;
 
-import java.awt.Color;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
@@ -20,19 +19,8 @@ public class Fire extends Component {
 
     protected ImageIcon image;
     public Fire(int x, int y) {
-        super(x, y,Color.BLACK);
+        super(x, y);
         this.image=new ImageIcon("FireSprite.png");
-//        this.image=new ImageIcon("C:\\Users\\Adrian\\Documents\\Tugas\\ADBO\\ChipChallange\\gambar\\IC.png");
-    }
-    
-    public boolean chk(Chip player)
-    {
-        boolean lose  = false;
-        if((player.getX()==this.getX())&&(player.getY()== this.getY()))
-        {
-            lose = true;
-        }
-        return lose;
     }
     
     @Override

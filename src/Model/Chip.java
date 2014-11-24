@@ -6,9 +6,8 @@
 
 package Model;
 
-import Engine.Board;
-import GUI.ChipGUI;
-import java.awt.Color;
+import Controller.Board;
+import View.ChipGUI;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,13 +26,12 @@ public class Chip extends Component implements ActionListener, KeyListener{
     protected Board b;
     protected ChipGUI gui;
     protected ImageIcon imageIcon;
-    
-    public Chip(int x, int y, Color warna,Board b,ChipGUI gui) {
-        super(x, y, warna);
+    protected Finish finish;
+    public Chip(int x, int y,Board b,ChipGUI gui) {
+        super(x, y);
         this.imageIcon=new ImageIcon("bawah.png");
         this.b=b;
         this.gui=gui;
-        this.player=player;
         inventory = new ArrayList<String>();
         this.setPlayer(x,y);
     }
@@ -47,7 +45,6 @@ public class Chip extends Component implements ActionListener, KeyListener{
     {
         boolean result = false;
         for (int i = 0; i < inventory.size(); i++) {
-            System.out.println(inventory.get(i) + " " + selectedItem);
             if(inventory.get(i).equals(selectedItem))
             {
                 result = true;
@@ -160,33 +157,44 @@ public class Chip extends Component implements ActionListener, KeyListener{
         this.imageIcon=new ImageIcon("atas.png");
         if (scanFire(this.getX(), this.getY() - 1) == true) {
             if (this.hasSelectedItem("Fire Boot") == true) {
-                this.setY(-1);
+                this.setPlayer(this.getX(),this.getY()-1);
                 gui.repaint();
             } else if (this.hasSelectedItem("Fire Boot") == false) {
-                this.setY(this.getY()-1);
+                this.setPlayer(this.getX(),this.getY()-1);
                 gui.repaint();
-                gui.createConditionFrame();
+                gui.createConditionFrame(false);
             }
-
-        } else if (scanWater(this.getX(), this.getY() - 1) == true) {
+        }
+        else if((this.getX()==gui.finish.getX())&&(this.getY()-1==gui.finish.getY()))
+        {
+            this.setPlayer(this.getX(),this.getY()-1);
+            gui.repaint();
+            gui.createConditionFrame(true);
+        }
+        else if((this.getX()==gui.Hint.getX())&&(this.getY()-1==gui.Hint.getY()))
+        {
+            this.setPlayer(this.getX(),this.getY()-1);
+            gui.repaint();
+            gui.showHint(true);
+        }
+        else if (scanWater(this.getX(), this.getY() - 1) == true) {
             if (this.hasSelectedItem("Water Boot") == true) {
                 setPlayer(this.getX(), this.getY() - 1);
                 gui.repaint();
             } else if (this.hasSelectedItem("Water Boot") == false) {
                 setPlayer(this.getX(), this.getY() - 1);
                 gui.repaint();
-                gui.createConditionFrame();
+                gui.createConditionFrame(false);
             }
-        } else if (scanWall(this.getX(), this.getY() - 1) == true) {
-             gui.repaint();
+        }
+        else if (scanWall(this.getX(), this.getY() - 1) == true) {
+            gui.repaint();
         } else if ((this.getX() == gui.waterBoots.getX()) && (this.getY() == gui.waterBoots.getY())) {
             gui.setWaterBoots(false, true);
             this.addItem("Water Boot");
-            gui.repaint();
         } else if ((this.getX() == gui.fireBoots.getX()) && (this.getY() == gui.fireBoots.getY())) {
             gui.setFireBoots(false, true);
             this.addItem("Fire Boot");
-            gui.repaint();
         } else {
             setPlayer(this.getX(), this.getY() - 1);
             gui.repaint();
@@ -199,35 +207,47 @@ public class Chip extends Component implements ActionListener, KeyListener{
      * Method untuk menggerakkan chip ke bawah
      */
     public void moveDown() {
-        this.imageIcon=new ImageIcon("bawah.png");
+         this.imageIcon=new ImageIcon("bawah.png");
         if (scanFire(this.getX(), this.getY() + 1) == true) {
-            if (this.hasSelectedItem("Fire Boot") == false) {
-                this.setY(this.getY()+1);
+            if (this.hasSelectedItem("Fire Boot") == true) {
+                this.setPlayer(this.getX(),this.getY()+1);
                 gui.repaint();
-                gui.createConditionFrame();
-            } else if (this.hasSelectedItem("Fire Boot") == true) {
+            } else if (this.hasSelectedItem("Fire Boot") == false) {
+                this.setPlayer(this.getX(),this.getY()+1);
                 gui.repaint();
+                gui.createConditionFrame(false);
             }
-
-        } else if (scanWater(this.getX(), this.getY() + 1) == true) {
+        } 
+        else if((this.getX()==gui.finish.getX())&&(this.getY()+1==gui.finish.getY()))
+        {
+            this.setPlayer(this.getX(),this.getY()+1);
+            gui.repaint();
+            gui.createConditionFrame(true);
+        }
+        else if((this.getX()==gui.Hint.getX())&&(this.getY()+1==gui.Hint.getY()))
+        {
+            this.setPlayer(this.getX(),this.getY()+1);
+            gui.repaint();
+            gui.showHint(true);
+        }
+        else if (scanWater(this.getX(), this.getY() + 1) == true) {
             if (this.hasSelectedItem("Water Boot") == true) {
                 setPlayer(this.getX(), this.getY() + 1);
                 gui.repaint();
             } else if (this.hasSelectedItem("Water Boot") == false) {
                 setPlayer(this.getX(), this.getY() + 1);
                 gui.repaint();
-                gui.createConditionFrame();
+                gui.createConditionFrame(false);
             }
-        } else if (scanWall(this.getX(), this.getY() + 1) == true) {
+        }
+        else if (scanWall(this.getX(), this.getY() + 1) == true) {
             gui.repaint();
         } else if ((this.getX() == gui.waterBoots.getX()) && (this.getY() == gui.waterBoots.getY())) {
             gui.setWaterBoots(false, true);
             this.addItem("Water Boot");
-            gui.repaint();
         } else if ((this.getX() == gui.fireBoots.getX()) && (this.getY() == gui.fireBoots.getY())) {
             gui.setFireBoots(false, true);
             this.addItem("Fire Boot");
-            gui.repaint();
         } else {
             setPlayer(this.getX(), this.getY() + 1);
             gui.repaint();
@@ -240,40 +260,53 @@ public class Chip extends Component implements ActionListener, KeyListener{
      * Method untuk menggerakkan chip ke kiri
      */
     public void moveLeft() {
-        this.imageIcon=new ImageIcon("kiri.png");
-        if (scanFire(this.getX() - 1, this.getY()) == true) {
-            if (this.hasSelectedItem("Fire Boot") == false) {
-                setPlayer(this.getX() - 1, this.getY());
-                gui.repaint();               
-                gui.createConditionFrame();
-            } else if (this.hasSelectedItem("Fire Boot") == true) {
+         this.imageIcon=new ImageIcon("kiri.png");
+         if (scanFire(this.getX()-1, this.getY() ) == true) {
+            if (this.hasSelectedItem("Fire Boot") == true) {
+                this.setPlayer(this.getX()-1,this.getY());
                 gui.repaint();
+            } else if (this.hasSelectedItem("Fire Boot") == false) {
+                this.setPlayer(this.getX()-1,this.getY());
+                gui.repaint();
+                gui.createConditionFrame(false);
             }
-
-        } else if (scanWater(this.getX() - 1, this.getY()) == true) {
+        } 
+        else if((this.getX()-1==gui.finish.getX())&&(this.getY()==gui.finish.getY()))
+        {
+            this.setPlayer(this.getX()-1,this.getY());
+            gui.repaint();
+            gui.createConditionFrame(true);
+        }
+        else if((this.getX()-1==gui.Hint.getX())&&(this.getY()==gui.Hint.getY()))
+        {
+            this.setPlayer(this.getX()-1,this.getY());
+            gui.repaint();
+            gui.showHint(true);
+        }
+        else if (scanWater(this.getX()-1, this.getY()) == true) {
             if (this.hasSelectedItem("Water Boot") == true) {
-                setPlayer(this.getX() - 1, this.getY());
+                setPlayer(this.getX()-1, this.getY());
                 gui.repaint();
             } else if (this.hasSelectedItem("Water Boot") == false) {
-                setPlayer(this.getX() - 1, this.getY());
+                setPlayer(this.getX()-1, this.getY());
                 gui.repaint();
-                gui.createConditionFrame();
+                gui.createConditionFrame(false);
             }
-        } else if (scanWall(this.getX() - 1, this.getY()) == true) {
+        }
+        else if (scanWall(this.getX()-1, this.getY()) == true) {
             gui.repaint();
         } else if ((this.getX() == gui.waterBoots.getX()) && (this.getY() == gui.waterBoots.getY())) {
             gui.setWaterBoots(false, true);
             this.addItem("Water Boot");
-            gui.repaint();
         } else if ((this.getX() == gui.fireBoots.getX()) && (this.getY() == gui.fireBoots.getY())) {
             gui.setFireBoots(false, true);
             this.addItem("Fire Boot");
-            gui.repaint();
         } else {
-            setPlayer(this.getX() - 1, this.getY());
+            setPlayer(this.getX()-1, this.getY());
             gui.repaint();
         }
         gui.setBarrier(false);
+
     }
 
     /**
@@ -281,48 +314,63 @@ public class Chip extends Component implements ActionListener, KeyListener{
      */
     public void moveRight() {
         this.imageIcon=new ImageIcon("kanan.png");
-        if (scanFire(this.getX() + 1, this.getY()) == true) {
-            if (this.hasSelectedItem("Fire Boot") == false) {
-                setPlayer(this.getX() + 1, this.getY());
+        if (scanFire(this.getX()+1, this.getY() ) == true) {
+            if (this.hasSelectedItem("Fire Boot") == true) {
+                this.setPlayer(this.getX()+1,this.getY());
                 gui.repaint();
-                gui.createConditionFrame();
-            } else if (this.hasSelectedItem("Fire Boot") == true) {
+            } else if (this.hasSelectedItem("Fire Boot") == false) {
+                this.setPlayer(this.getX()+1,this.getY());
                 gui.repaint();
+                gui.createConditionFrame(false);
             }
-
-        } else if (scanWater(this.getX() + 1, this.getY()) == true) {
+        } 
+        else if((this.getX()+1==gui.finish.getX())&&(this.getY()==gui.finish.getY()))
+        {
+            this.setPlayer(this.getX()+1,this.getY());
+            gui.repaint();
+            gui.createConditionFrame(true);
+        }
+        else if((this.getX()+1==gui.Hint.getX())&&(this.getY()==gui.Hint.getY()))
+        {
+            this.setPlayer(this.getX()+1,this.getY());
+            gui.repaint();
+            gui.showHint(true);
+        }
+        else if (scanWater(this.getX()+1, this.getY()) == true) {
             if (this.hasSelectedItem("Water Boot") == true) {
-                setPlayer(this.getX() + 1, this.getY());
+                setPlayer(this.getX()+1, this.getY());
                 gui.repaint();
             } else if (this.hasSelectedItem("Water Boot") == false) {
-                setPlayer(this.getX() + 1, this.getY());
+                setPlayer(this.getX()+1, this.getY());
                 gui.repaint();
-                gui.createConditionFrame();
+                gui.createConditionFrame(false);
             }
-        } else if (scanWall(this.getX() + 1, this.getY()) == true) {
+        }
+        else if (scanWall(this.getX()+1, this.getY()) == true) {
             gui.repaint();
         } else if ((this.getX() == gui.waterBoots.getX()) && (this.getY() == gui.waterBoots.getY())) {
             gui.setWaterBoots(false, true);
             this.addItem("Water Boot");
-            gui.repaint();
         } else if ((this.getX() == gui.fireBoots.getX()) && (this.getY() == gui.fireBoots.getY())) {
             gui.setFireBoots(false, true);
             this.addItem("Fire Boot");
-            gui.repaint();
         } else {
-            setPlayer(this.getX() + 1, this.getY());
+            setPlayer(this.getX()+1, this.getY());
             gui.repaint();
         }
         gui.setBarrier(false);
+
     }
 
     public boolean scanFire(int x, int y) {
         boolean result = false;
         for (int i = 0; i < gui.fire.length; i++) {
             if ((gui.fire[i].getX() == x) && (gui.fire[i].getY() == y)) {
-                if (gui.fireBoots.getX() > 0) {
+                if(gui.fire[i].getX()>0)
+                {
                     result = true;
                 }
+                
                 break;
             }
         }
@@ -343,16 +391,19 @@ public class Chip extends Component implements ActionListener, KeyListener{
     public boolean scanWater(int x, int y) {
         boolean result = false;
         for (int i = 0; i < gui.water.length; i++) {
-            if ((gui.water[i].getX() == x) && (gui.water[i].getY() == y)) {
-                if (gui.waterBoots.getX() > 0) 
+           if ((gui.water[i].getX() == x) && (gui.water[i].getY() == y)) {
+                if(gui.water[i].getX()>0)
                 {
                     result = true;
                 }
+                
                 break;
             }
-        }
+            }
         return result;
-    }
+}
+    
+
     
     public void setPlayer(int x, int y) {
         this.x=x;

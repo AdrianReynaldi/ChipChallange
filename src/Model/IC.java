@@ -6,7 +6,6 @@
 
 package Model;
 
-import java.awt.Color;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
@@ -20,9 +19,8 @@ public class IC extends Component{
 
     private ImageIcon image;
     public IC(int x, int y) {
-        super(x, y,Color.BLACK);
+        super(x, y);
         image=new ImageIcon("IC.png");
-//        image=new ImageIcon("C:\\Users\\Adrian\\Documents\\Tugas\\ADBO\\ChipChallange\\gambar\\IC.png");
     }
     
     @Override

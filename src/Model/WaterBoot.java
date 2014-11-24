@@ -6,7 +6,6 @@
 
 package Model;
 
-import java.awt.Color;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
@@ -18,7 +17,7 @@ public class WaterBoot extends Component{
 
     protected ImageIcon image;
     public WaterBoot(int x, int y) {
-        super(x, y,Color.black);
+        super(x, y);
         this.image=new ImageIcon("waterBoots.png");
     }
 

@@ -6,7 +6,6 @@
 
 package Model;
 
-import java.awt.Color;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
@@ -20,9 +19,8 @@ public class Wall extends Component {
     protected ImageIcon image;
 
     public Wall(int x, int y) {
-        super(x, y,Color.black);
+        super(x, y);
         this.image=new ImageIcon("Wall.jpg");
-//        this.image=new ImageIcon("C:\\Users\\Adrian\\Documents\\Tugas\\ADBO\\ChipChallange\\gambar\\Wall.jpg");
     }
     
    @Override

@@ -6,7 +6,6 @@
 
 package Model;
 
-import java.awt.Color;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
@@ -20,19 +19,8 @@ public class Finish extends Component{
 
     protected ImageIcon image;
     public Finish(int x, int y) {
-        super(x, y,Color.BLACK);
+        super(x, y);
         this.image=new ImageIcon("Finish.png");
-//        this.image=new ImageIcon("    C:\\Users\\Adrian\\Documents\\Tugas\\ADBO\\ChipChallange\\gambar\\Finish.png");
-    }
-    
-    public boolean chk(Chip player)
-    {
-        boolean win  = false;
-        if((player.getX()==this.getX())&&(player.getY()== this.getY()))
-        {
-            win = true;
-        }
-        return win;
     }
     
     @Override

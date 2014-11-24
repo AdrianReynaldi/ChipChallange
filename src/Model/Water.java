@@ -6,7 +6,6 @@
 
 package Model;
 
-import java.awt.Color;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
@@ -18,9 +17,8 @@ public class Water extends Component {
     
     protected ImageIcon image;
     public Water(int x, int y) {
-        super(x, y,Color.black);
+        super(x, y);
         this.image=new ImageIcon("Water.jpg");
-//        this.image=new ImageIcon("C:\\Users\\Adrian\\Documents\\Tugas\\ADBO\\ChipChallange\\gambar\\IC.png");
     }
     
     @Override

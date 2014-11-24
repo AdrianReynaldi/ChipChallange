@@ -1,4 +1,3 @@
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -7,7 +6,6 @@
 
 package Model;
 
-import java.awt.Color;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
@@ -18,7 +16,7 @@ import javax.swing.ImageIcon;
 public class Hint extends Component{
     protected ImageIcon image;
     public Hint(int x,int y){
-        super(x,y,Color.black);
+        super(x,y);
         this.image=new ImageIcon("questionMark.png");
     }
 
