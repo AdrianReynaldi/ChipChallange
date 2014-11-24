@@ -1,11 +1,13 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
-package ChipChallenge.Engine;
+package Model;
 
+import java.awt.Color;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
@@ -13,14 +15,13 @@ import javax.swing.ImageIcon;
  *
  * @author Adrian
  */
-public class Water extends Component {
-    
+public class Hint extends Component{
     protected ImageIcon image;
-    public Water(int x, int y) {
-        super(x, y);
-        this.image=new ImageIcon("C:\\Users\\Adrian\\Documents\\Tugas\\ADBO\\ChipChallange\\gambar\\IC.png");
+    public Hint(int x,int y){
+        super(x,y,Color.black);
+        this.image=new ImageIcon("questionMark.png");
     }
-    
+
     @Override
     public Image getGambar() {
         Image img=this.image.getImage();
@@ -29,6 +30,7 @@ public class Water extends Component {
 
     @Override
     public void setGambar(ImageIcon gambar) {
-        this.gambar=gambar;
+        this.image=gambar;
     }
+    
 }

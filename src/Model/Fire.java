@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package ChipChallenge.Engine;
+package Model;
 
 import java.awt.Color;
 import java.awt.Image;
@@ -20,8 +20,9 @@ public class Fire extends Component {
 
     protected ImageIcon image;
     public Fire(int x, int y) {
-        super(x, y);
-        this.image=new ImageIcon("C:\\Users\\Adrian\\Documents\\Tugas\\ADBO\\ChipChallange\\gambar\\IC.png");
+        super(x, y,Color.BLACK);
+        this.image=new ImageIcon("FireSprite.png");
+//        this.image=new ImageIcon("C:\\Users\\Adrian\\Documents\\Tugas\\ADBO\\ChipChallange\\gambar\\IC.png");
     }
     
     public boolean chk(Chip player)
@@ -42,6 +43,6 @@ public class Fire extends Component {
 
     @Override
     public void setGambar(ImageIcon gambar) {
-        this.gambar=gambar;
+        this.image=gambar;
     }
 }

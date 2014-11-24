@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package ChipChallenge.Engine;
+package Model;
 
 import java.awt.Color;
 import java.awt.Image;
@@ -20,8 +20,9 @@ public class Barrier extends Component {
 
     private ImageIcon image;
     public Barrier(int x, int y) {
-        super(x, y);
-        image=new ImageIcon("C:\\Users\\Adrian\\Documents\\Tugas\\ADBO\\ChipChallange\\gambar\\Wall.jpg");
+        super(x, y, Color.BLACK);
+        image=new ImageIcon("Barrier.png");
+//        image=new ImageIcon("C:\\Users\\Adrian\\Documents\\Tugas\\ADBO\\ChipChallange\\gambar\\Wall.jpg");
     }
     
     public boolean breakBarrier(Component[] ic)
@@ -42,6 +43,6 @@ public class Barrier extends Component {
 
     @Override
     public void setGambar(ImageIcon gambar) {
-        this.gambar=gambar;
+        this.image=gambar;
     }
 }

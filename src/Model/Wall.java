@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package ChipChallenge.Engine;
+package Model;
 
 import java.awt.Color;
 import java.awt.Image;
@@ -20,8 +20,9 @@ public class Wall extends Component {
     protected ImageIcon image;
 
     public Wall(int x, int y) {
-        super(x, y);
-        this.image=new ImageIcon("C:\\Users\\Adrian\\Documents\\Tugas\\ADBO\\ChipChallange\\gambar\\Wall.jpg");
+        super(x, y,Color.black);
+        this.image=new ImageIcon("Wall.jpg");
+//        this.image=new ImageIcon("C:\\Users\\Adrian\\Documents\\Tugas\\ADBO\\ChipChallange\\gambar\\Wall.jpg");
     }
     
    @Override
@@ -32,6 +33,6 @@ public class Wall extends Component {
 
     @Override
     public void setGambar(ImageIcon gambar) {
-        this.gambar=gambar;
+        this.image=gambar;
     }
 }

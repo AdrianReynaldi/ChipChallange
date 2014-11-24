@@ -3,35 +3,51 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ChipChallenge.GUI;
+package GUI;
 
-import ChipChallenge.Engine.*;
-import ChipChallenge.Engine.Board;
-import ChipChallenge.Engine.Component;
-import ChipChallenge.Engine.Finish;
+import Model.Chip;
+import Model.Finish;
+import Model.Fire;
+import Model.Hint;
+import Model.WaterBoot;
+import Model.Barrier;
+import Model.IC;
+import Model.Water;
+import Model.FireBoot;
+import Model.Wall;
+import Engine.*;
+import Model.Component;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Win8
  */
-public class ChipGUI extends javax.swing.JFrame implements ActionListener, KeyListener{
+public class ChipGUI extends javax.swing.JFrame {
 
-    Board b;
+    private Board b;
+    public Component[] fire = new Component[7];
+    public Component[] water = new Component[7];
+    public Component[] wall = new Component[26];
+    JFrame conditionFrame;
+    public Chip player;
+    public Component fireBoots, waterBoots;
 
     /**
      * Creates new form ChipGUI
      */
     public ChipGUI() {
         initComponents();
+        nameLabel.setText("Hello, " + JOptionPane.showInputDialog(rootPane, "Enter Your Name", "Start Game", 0));
         setBoard();
         this.repaint();
-        addKeyListener(this);
+        this.player=new Chip(4, 4, Color.white, b, this);
+        addKeyListener(player);
         this.setFocusable(true);
         setFocusTraversalKeysEnabled(false);
     }
@@ -46,14 +62,13 @@ public class ChipGUI extends javax.swing.JFrame implements ActionListener, KeyLi
         b = (new Board(9, 9));
         this.setBarrier(true);
         this.setFinish();
-        //this.setWaterBoots(true, true);
-        //this.setFireBoots(true, true);
+        this.setHint();
+        this.setWaterBoots(true, true);
+        this.setFireBoots(true, true);
         this.setFire();
         this.setWater();
-       // this.setHint();
         boolean[] emerge = {true, true, true, true, true};
         this.setIC(emerge);
-        this.setPlayer(4, 4);
         this.setWall();
         this.add(b);
         this.setSize(720, 600);
@@ -63,6 +78,11 @@ public class ChipGUI extends javax.swing.JFrame implements ActionListener, KeyLi
     public void setFinish() {
         Component finish = new Finish(4, 0);
         b.setFinish(finish);
+    }
+
+    private void setHint() {
+        Component hint = new Hint(4, 3);
+        b.setHint(hint);
     }
 
     public void setBarrier(boolean appears) {
@@ -75,49 +95,30 @@ public class ChipGUI extends javax.swing.JFrame implements ActionListener, KeyLi
         b.setBarrier(barrier);
     }
 
-   // public void setHint() {
-      //  Component hint = new Component(4, 3, Color.YELLOW);
-      //  b.setHint(hint);
-   // }
-
-    public void setPlayer(int x, int y) {
-        Component player = new Chip(x, y);
-        b.setPlayer(player);
-    }
-
-    /**public void setWaterBoots(boolean emerge, boolean die)
-    {
-        //Component waterBoots;
-        //if(emerge == true)
-        //{
-        //    waterBoots = new Component(0, 0, Color.blue);
-        //}
-        //else
-        //{
-        //    waterBoots = new Component(-5, -5, Color.blue);
-        //    die = false;
-        //}
-        //b.setWaterBoots(waterBoots);
-    }
-    */
-    /**public void setFireBoots(boolean emerge, boolean die)
-    {
-        Component fireBoots;
-        //if(emerge == true)
-        //{
-        //    fireBoots = new Component(3, 8, Color.red);
-        //}
-        //else
-        //{
-        //    fireBoots = new Component(-3, -3, Color.red);
-        //    die = false;
-        //}
-        //b.setFireBoots(fireBoots);
-    }
-    * */
     
+
+    public void setWaterBoots(boolean emerge, boolean die) {
+        if (emerge == true) {
+            waterBoots = new WaterBoot(0, 0);
+        } else {
+            waterBoots = new WaterBoot(-5, -5);
+            die = false;
+        }
+        b.setWaterBoots(waterBoots);
+    }
+
+    public void setFireBoots(boolean emerge, boolean die) {
+        if (emerge == true) {
+            fireBoots = new FireBoot(3, 8);
+        } else {
+            fireBoots = new FireBoot(-3, -3);
+            die = false;
+        }
+        b.setFireBoots(fireBoots);
+    }
+
     public void setIC(boolean[] emerge) {
-        IC[] IC = new IC[5];
+        Component[] IC = new Component[5];
         if (emerge[0] == true) {
             IC[0] = new IC(1, 0);
         } else {
@@ -148,7 +149,6 @@ public class ChipGUI extends javax.swing.JFrame implements ActionListener, KeyLi
     }
 
     public void setFire() {
-        Fire[] fire = new Fire[7];
         fire[0] = new Fire(3, 2);
         fire[1] = new Fire(4, 2);
         fire[2] = new Fire(2, 2);
@@ -159,9 +159,7 @@ public class ChipGUI extends javax.swing.JFrame implements ActionListener, KeyLi
         b.setFire(fire);
     }
 
-    public void setWater()
-    {
-        Water[] water = new Water[7];
+    public void setWater() {
         water[0] = new Water(6, 0);
         water[1] = new Water(6, 1);
         water[2] = new Water(6, 2);
@@ -171,8 +169,8 @@ public class ChipGUI extends javax.swing.JFrame implements ActionListener, KeyLi
         water[6] = new Water(5, 2);
         b.setWater(water);
     }
+
     public void setWall() {
-        Wall[] wall = new Wall[26];
         wall[0] = new Wall(3, 0);
         wall[1] = new Wall(5, 0);
         wall[2] = new Wall(0, 1);
@@ -211,209 +209,68 @@ public class ChipGUI extends javax.swing.JFrame implements ActionListener, KeyLi
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
+        nameLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        nameLabel.setText("Hello");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(601, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addContainerGap(598, Short.MAX_VALUE)
+                .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(62, 62, 62)
-                .addComponent(jButton1)
-                .addContainerGap(465, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(422, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        int x = b.player.getX();
-        int y = b.player.getY();
-        this.setPlayer(x + 1, y);
-        this.setBarrier(false);
-        this.repaint();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-     /**
+    /**
      * Method untuk menggerakkan chip
      *
      * @param moveKey
      */
-    @Override
-    public void keyPressed(KeyEvent moveKey) {
-        int arrowKey = moveKey.getKeyCode();
-        int x = b.player.getX();
-        int y = b.player.getY();
-        if(x==8 && y==8)
-        {
-                if (arrowKey == KeyEvent.VK_LEFT) {
-                    moveLeft();
-                }
-                else if (arrowKey == KeyEvent.VK_UP) {
-                    moveUp();
-                }
-       
-        }else if(x==0 && y==8)
-        {
-                if (arrowKey == KeyEvent.VK_RIGHT) {
-                    moveRight();
-                }
-                else if (arrowKey == KeyEvent.VK_UP) {
-                    moveUp();
-                }
-       
-        }
-        else if(x>7)
-        {
-            if(y<=0)
-            {
-                if (arrowKey == KeyEvent.VK_LEFT) {
-                    moveLeft();
-                }
-                else if (arrowKey == KeyEvent.VK_DOWN) {
-                    moveDown();
-                } 
-            }
-            else
-            {
-                 if (arrowKey == KeyEvent.VK_UP) {
-                    moveUp();
-            } else if (arrowKey == KeyEvent.VK_DOWN) {
-                moveDown();
-            } 
-            else if (arrowKey == KeyEvent.VK_LEFT) {
-                moveLeft();
-            }
-            }
-           
-        }
-        else if(x<=0)
-        {
-            if(y<=0)
-            {
-                if (arrowKey == KeyEvent.VK_RIGHT) {
-                    moveRight();
-                }
-                else if (arrowKey == KeyEvent.VK_DOWN) {
-                    moveDown();
-                } 
-            }
-            else
-            {
-                if (arrowKey == KeyEvent.VK_UP) {
-                moveUp();
-            } else if (arrowKey == KeyEvent.VK_DOWN) {
-                moveDown();
-            } 
-            else if (arrowKey == KeyEvent.VK_RIGHT) {
-                moveRight();
-            }
-            }
-            
-        }
-        else if(y>7)
-        {
-            if (arrowKey == KeyEvent.VK_UP) {
-                moveUp();
-            }  else if (arrowKey == KeyEvent.VK_RIGHT) {
-                moveRight();
-            } else if (arrowKey == KeyEvent.VK_LEFT) {
-                moveLeft();
-            }
-        }
-        else if(y<=0)
-        {
-            if (arrowKey == KeyEvent.VK_DOWN) {
-                moveDown();
-            } else if (arrowKey == KeyEvent.VK_RIGHT) {
-                moveRight();
-            } else if (arrowKey == KeyEvent.VK_LEFT) {
-                moveLeft();
-            }
-        }
-        else
-        {
-            if (arrowKey == KeyEvent.VK_UP) {
-                moveUp();
-            }  else if (arrowKey == KeyEvent.VK_RIGHT) {
-                moveRight();
-            } else if (arrowKey == KeyEvent.VK_LEFT) {
-                moveLeft();
-            }
-             else if (arrowKey == KeyEvent.VK_DOWN) {
-                moveDown();
-            } 
-        }
+    
 
+    public void createConditionFrame() {
+//        conditionFrame = new JFrame("Game Over");
+//        conditionFrame.setVisible(true);
+//        conditionFrame.setSize(720, 480);
+//        conditionFrame.setResizable(false);
+//        JLabel labelCondition = new JLabel("You Lose !!");
+//        conditionFrame.add(labelCondition);
+//        this.setFocusable(false);
+//        JButton tryAgain = new JButton("Try Again");
+//        conditionFrame.add(tryAgain);
+//        tryAgain.setSize(50, 50);
+//        this.setVisible(false);
+        if (JOptionPane.showOptionDialog(rootPane, "Try Again?", "Game Over", 0, 2, null, null, null) == 1) {
+            this.dispose();
+        } else {
+            this.dispose();
+            new ChipGUI().setVisible(true);
+        }
     }
 
     /**
      * Method untuk menggerakkan chip ke atas
      */
-    public void moveUp() {
-        int x = b.player.getX();
-        int y = b.player.getY();
-        this.setPlayer(x, y - 1);
-        this.setBarrier(false);
-        this.repaint();
-    }
+    
 
-    /**
-     * Method untuk menggerakkan chip ke bawah
-     */
-    public void moveDown() {
-        int x = b.player.getX();
-        int y = b.player.getY();
-        this.setPlayer(x, y + 1);
-        this.setBarrier(false);
-        this.repaint();
-    }
+    
 
-    /**
-     * Method untuk menggerakkan chip ke kiri
-     */
-    public void moveLeft() {
-        int x = b.player.getX();
-        int y = b.player.getY();
-        this.setPlayer(x-1, y);
-        this.setBarrier(false);
-        this.repaint();
-    }
+    
 
-    /**
-     * Method untuk menggerakkan chip ke bawah
-     */
-    public void moveRight() {
-        int x = b.player.getX();
-        int y = b.player.getY();
-        this.setPlayer(x + 1, y);
-        this.setBarrier(false);
-        this.repaint();
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-    }
     /**
      * @param args the command line arguments
      */
@@ -448,11 +305,10 @@ public class ChipGUI extends javax.swing.JFrame implements ActionListener, KeyLi
             }
         });
     }
-@Override
-    public void actionPerformed(ActionEvent e) {
 
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel nameLabel;
     // End of variables declaration//GEN-END:variables
+   
+
 }
