@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Model;
 
 import Controller.Board;
-import View.ChipGUI;
+import View.Level1;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,97 +16,105 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 /**
- * Chip adalah player dari permainan Chip Challenge 
+ * Kelas yang merepresentasikan objek chip
+ *
  * @author Adrian Reynaldi(2013730058)
- * @author Enricofindley  (2013730008)
+ * @author Enricofindley (2013730008)
  * @author Yohanes Ediwan (2013730044)
  */
-public class Chip extends Component implements ActionListener, KeyListener{
-    // Atribut untuk menyatakan inventory pada permainan Chip Challenge
-    // Inventory di representasikan dalam bentuk ArrayList
-    // dimana banyaknya component-component dalam permainan Chip Challenge tidak diketahui panjangnya
+public class Chip extends Component implements ActionListener, KeyListener {
+
+    /**
+     * tempat penampung barang yang di ambil oleh chip
+     */
     private ArrayList<String> inventory;
-    // Atribut untuk menyatakan player pada permainan Chip Challenge
+
+    /**
+     * pemain dalam permainan
+     */
     protected Component player;
-    // Atribut untuk menyatakan papan permainan.
+
+    /**
+     * papan permainan
+     */
     protected Board b;
-    // Atribut yang merupakan Objek gui dari kelas Chip GUI
-    protected ChipGUI gui;
-    // Atribut yang merupakan objek Icon Image dari kelas Image Icon 
+
+    /**
+     * gui permainan
+     */
+    protected Level1 gui;
+
+    /**
+     * gambar yang merepresentasikan komponen
+     */
     protected ImageIcon imageIcon;
-    // Atribut yang merupakan objek finish dari kelas Finish
+
+    /**
+     * jalan keluar dari permainan
+     */
     protected Finish finish;
-    
+
     /**
-     * Konstruktor dari kelas Chip, sekaligus memanggil konstruktor Chip yang ada di Component
-     * @param x
-     * @param y
-     * @param warna
-     * @param b
-     * @param gui 
+     * Constructor yang menginisialisasi atribut
+     *
+     * @param x posisi pemain
+     * @param y posisi pemain
+     * @param b papan permainan
+     * @param gui gui permainan
      */
-    public Chip(int x, int y,Board b,ChipGUI gui) {
+    public Chip(int x, int y, Board b, Level1 gui) {
         super(x, y);
-        this.imageIcon=new ImageIcon("bawah.png");
-        this.b=b;
-        this.gui=gui;
+        this.imageIcon = new ImageIcon("bawah.png");
+        this.b = b;
+        this.gui = gui;
         inventory = new ArrayList<String>();
-        this.setPlayer(x,y);
+        this.setPlayer(x, y);
     }
+
     /**
-     * Method yang berfungsi untuk menambahkan Item baru ke dalam inventory pada permainan Chip Challenge.
-     * @param item baru yang ingin diambil
+     * method untuk menambahkan item ke inventory
+     *
+     * @param item barang yang ditambahkan
      */
-    public void addItem(String item)
-    {
+    public void addItem(String item) {
         inventory.add(item);
     }
+
     /**
-     * Method yang berguna untuk mengecek apakah player dalam permainan Chip Challenge ini sudah mempunyai item yang udah diambil atau belom
-     * @param selectedItem Item yang dipilih
-     * @return true jika item dalam permainan Chip Challenge sudah diambil oleh player nya.
-     * @return false jika item dalam permainan Chip Challenge belom diambil oleh player nya.
-     * Contoh nya : Player dalam permainan Chip Challenge ini jika sudah mengambil sepatu tahan air, player dapat berjalan di atas air.
-     *              Jika player dalam permainan Chip Challenge ini belum mengambil sepatu tahan air, player tidak dapat berjalan di atas air  
+     * method untuk mengecek apakah terdapat item yang diinginkan
+     *
+     * @param selectedItem item yang dicari
+     * @return
      */
-    public boolean hasSelectedItem(String selectedItem)
-    {
+    public boolean hasSelectedItem(String selectedItem) {
         boolean result = false;
         for (int i = 0; i < inventory.size(); i++) {
-            if(inventory.get(i).equals(selectedItem))
-            {
+            if (inventory.get(i).equals(selectedItem)) {
                 result = true;
                 break;
-            }
-            else
-            {
+            } else {
                 result = false;
             }
         }
         return result;
     }
+
     /**
-     * Method yang meng-override method Gambar yang ada di kelas Component
-     * Method component yang di override adalah image player/ image Chip.
-     * @return gambar player dalam permainan chip challengeyang diperoleh. 
-     * Gambar player akan ditampilkan ke dalam bentuk GUI yang diambil dari folder penyimpanan
+     * override method get gambar milik superclass
+     *
+     * @return gambar yang diinginkan
      */
     @Override
-    public Image getGambar()
-    {
+    public Image getGambar() {
         Image img = this.imageIcon.getImage();
         return img;
-    }    
+    }
 
     @Override
     public void keyTyped(KeyEvent e) {
-        
+
     }
-    
-    /**
-     * Method yang berfungsi untuk menggerakan pemain, dengan menggunakan arrow key
-     * @param moveKey (W,A,S,D);
-     */
+
     @Override
     public void keyPressed(KeyEvent moveKey) {
         int arrowKey = moveKey.getKeyCode();
@@ -190,34 +197,44 @@ public class Chip extends Component implements ActionListener, KeyListener{
         }
 
     }
+
     /**
-     * Method supaya player bisa berjalan ke atas menggunakan arrow keys 
+     * method untuk bergerak ke atas
      */
     public void moveUp() {
-        this.imageIcon=new ImageIcon("atas.png");
+        this.scanIC();
+        for (int i = 0; i < gui.IC.length; i++) {
+            if ((this.getX() == gui.IC[i].getX()) && (this.getY() - 1 == gui.IC[i].getY())) {
+                gui.emerge[i] = false;
+                this.setPlayer(this.getX(), this.getY() - 1);
+                gui.setIC(gui.emerge);
+                gui.repaint();
+                break;
+            }
+
+        }
+        this.imageIcon = new ImageIcon("atas.png");
         if (scanFire(this.getX(), this.getY() - 1) == true) {
             if (this.hasSelectedItem("Fire Boot") == true) {
-                this.setPlayer(this.getX(),this.getY()-1);
+                this.setPlayer(this.getX(), this.getY() - 1);
                 gui.repaint();
             } else if (this.hasSelectedItem("Fire Boot") == false) {
-                this.setPlayer(this.getX(),this.getY()-1);
+                this.setPlayer(this.getX(), this.getY() - 1);
                 gui.repaint();
                 gui.createConditionFrame(false);
             }
-        }
-        else if((this.getX()==gui.finish.getX())&&(this.getY()-1==gui.finish.getY()))
-        {
-            this.setPlayer(this.getX(),this.getY()-1);
+        } else if ((this.getX() == gui.barrier.getX()) && (this.getY() - 1 == gui.barrier.getY())) {
+
+        } else if ((this.getX() == gui.finish.getX()) && (this.getY() - 1 == gui.finish.getY())) {
+            this.setPlayer(this.getX(), this.getY() - 1);
             gui.repaint();
+            gui.finished = true;
             gui.createConditionFrame(true);
-        }
-        else if((this.getX()==gui.Hint.getX())&&(this.getY()-1==gui.Hint.getY()))
-        {
-            this.setPlayer(this.getX(),this.getY()-1);
+        } else if ((this.getX() == gui.Hint.getX()) && (this.getY() - 1 == gui.Hint.getY())) {
+            this.setPlayer(this.getX(), this.getY() - 1);
             gui.repaint();
             gui.showHint(true);
-        }
-        else if (scanWater(this.getX(), this.getY() - 1) == true) {
+        } else if (scanWater(this.getX(), this.getY() - 1) == true) {
             if (this.hasSelectedItem("Water Boot") == true) {
                 setPlayer(this.getX(), this.getY() - 1);
                 gui.repaint();
@@ -226,51 +243,61 @@ public class Chip extends Component implements ActionListener, KeyListener{
                 gui.repaint();
                 gui.createConditionFrame(false);
             }
-        }
-        else if (scanWall(this.getX(), this.getY() - 1) == true) {
+        } else if (scanWall(this.getX(), this.getY() - 1) == true) {
             gui.repaint();
-        } else if ((this.getX() == gui.waterBoots.getX()) && (this.getY() == gui.waterBoots.getY())) {
+        } else if ((this.getX() == gui.waterBoots.getX()) && (this.getY() - 1 == gui.waterBoots.getY())) {
+            setPlayer(this.getX(), this.getY() - 1);
             gui.setWaterBoots(false, true);
+            gui.repaint();
             this.addItem("Water Boot");
-        } else if ((this.getX() == gui.fireBoots.getX()) && (this.getY() == gui.fireBoots.getY())) {
+        } else if ((this.getX() == gui.fireBoots.getX()) && (this.getY() - 1 == gui.fireBoots.getY())) {
+            setPlayer(this.getX(), this.getY() - 1);
             gui.setFireBoots(false, true);
+            gui.repaint();
             this.addItem("Fire Boot");
         } else {
             setPlayer(this.getX(), this.getY() - 1);
             gui.repaint();
         }
-        gui.setBarrier(false);
 
     }
 
     /**
-     * Method supaya player bisa berjalan ke bawah menggunakan arrow keys 
+     * Method untuk menggerakkan chip ke bawah
      */
     public void moveDown() {
-         this.imageIcon=new ImageIcon("bawah.png");
+        this.scanIC();
+        for (int i = 0; i < gui.IC.length; i++) {
+            if ((this.getX() == gui.IC[i].getX()) && (this.getY() + 1 == gui.IC[i].getY())) {
+                gui.emerge[i] = false;
+                this.setPlayer(this.getX(), this.getY() + 1);
+                gui.setIC(gui.emerge);
+                gui.repaint();
+                break;
+            }
+
+        }
+        this.imageIcon = new ImageIcon("bawah.png");
         if (scanFire(this.getX(), this.getY() + 1) == true) {
             if (this.hasSelectedItem("Fire Boot") == true) {
-                this.setPlayer(this.getX(),this.getY()+1);
+                this.setPlayer(this.getX(), this.getY() + 1);
                 gui.repaint();
             } else if (this.hasSelectedItem("Fire Boot") == false) {
-                this.setPlayer(this.getX(),this.getY()+1);
+                this.setPlayer(this.getX(), this.getY() + 1);
                 gui.repaint();
                 gui.createConditionFrame(false);
             }
-        } 
-        else if((this.getX()==gui.finish.getX())&&(this.getY()+1==gui.finish.getY()))
-        {
-            this.setPlayer(this.getX(),this.getY()+1);
+        } else if ((this.getX() == gui.barrier.getX()) && (this.getY() + 1 == gui.barrier.getY())) {
+
+        } else if ((this.getX() == gui.finish.getX()) && (this.getY() + 1 == gui.finish.getY())) {
+            this.setPlayer(this.getX(), this.getY() + 1);
             gui.repaint();
             gui.createConditionFrame(true);
-        }
-        else if((this.getX()==gui.Hint.getX())&&(this.getY()+1==gui.Hint.getY()))
-        {
-            this.setPlayer(this.getX(),this.getY()+1);
+        } else if ((this.getX() == gui.Hint.getX()) && (this.getY() + 1 == gui.Hint.getY())) {
+            this.setPlayer(this.getX(), this.getY() + 1);
             gui.repaint();
             gui.showHint(true);
-        }
-        else if (scanWater(this.getX(), this.getY() + 1) == true) {
+        } else if (scanWater(this.getX(), this.getY() + 1) == true) {
             if (this.hasSelectedItem("Water Boot") == true) {
                 setPlayer(this.getX(), this.getY() + 1);
                 gui.repaint();
@@ -279,154 +306,176 @@ public class Chip extends Component implements ActionListener, KeyListener{
                 gui.repaint();
                 gui.createConditionFrame(false);
             }
-        }
-        else if (scanWall(this.getX(), this.getY() + 1) == true) {
+        } else if (scanWall(this.getX(), this.getY() + 1) == true) {
             gui.repaint();
-        } else if ((this.getX() == gui.waterBoots.getX()) && (this.getY() == gui.waterBoots.getY())) {
+        } else if ((this.getX() == gui.waterBoots.getX()) && (this.getY() + 1 == gui.waterBoots.getY())) {
+            setPlayer(this.getX(), this.getY() + 1);
             gui.setWaterBoots(false, true);
+            gui.repaint();
             this.addItem("Water Boot");
-        } else if ((this.getX() == gui.fireBoots.getX()) && (this.getY() == gui.fireBoots.getY())) {
+        } else if ((this.getX() == gui.fireBoots.getX()) && (this.getY() + 1 == gui.fireBoots.getY())) {
+            setPlayer(this.getX(), this.getY() + 1);
             gui.setFireBoots(false, true);
+            gui.repaint();
             this.addItem("Fire Boot");
         } else {
             setPlayer(this.getX(), this.getY() + 1);
             gui.repaint();
         }
-        gui.setBarrier(false);
 
     }
 
     /**
-     * Method supaya player bisa berjalan ke kiri menggunakan arrow keys 
+     * Method untuk menggerakkan chip ke kiri
      */
     public void moveLeft() {
-         this.imageIcon=new ImageIcon("kiri.png");
-         if (scanFire(this.getX()-1, this.getY() ) == true) {
+        this.scanIC();
+        for (int i = 0; i < gui.IC.length; i++) {
+            if ((this.getX() - 1 == gui.IC[i].getX()) && (this.getY() == gui.IC[i].getY())) {
+                gui.emerge[i] = false;
+                this.setPlayer(this.getX() - 1, this.getY());
+                gui.setIC(gui.emerge);
+                gui.repaint();
+                break;
+            }
+
+        }
+        this.imageIcon = new ImageIcon("kiri.png");
+        if (scanFire(this.getX() - 1, this.getY()) == true) {
             if (this.hasSelectedItem("Fire Boot") == true) {
-                this.setPlayer(this.getX()-1,this.getY());
+                this.setPlayer(this.getX() - 1, this.getY());
                 gui.repaint();
             } else if (this.hasSelectedItem("Fire Boot") == false) {
-                this.setPlayer(this.getX()-1,this.getY());
+                this.setPlayer(this.getX() - 1, this.getY());
                 gui.repaint();
                 gui.createConditionFrame(false);
             }
-        } 
-        else if((this.getX()-1==gui.finish.getX())&&(this.getY()==gui.finish.getY()))
-        {
-            this.setPlayer(this.getX()-1,this.getY());
+        } else if ((this.getX() - 1 == gui.barrier.getX()) && (this.getY() == gui.barrier.getY())) {
+
+        } else if ((this.getX() - 1 == gui.finish.getX()) && (this.getY() == gui.finish.getY())) {
+            this.setPlayer(this.getX() - 1, this.getY());
             gui.repaint();
             gui.createConditionFrame(true);
-        }
-        else if((this.getX()-1==gui.Hint.getX())&&(this.getY()==gui.Hint.getY()))
-        {
-            this.setPlayer(this.getX()-1,this.getY());
+        } else if ((this.getX() - 1 == gui.Hint.getX()) && (this.getY() == gui.Hint.getY())) {
+            this.setPlayer(this.getX() - 1, this.getY());
             gui.repaint();
             gui.showHint(true);
-        }
-        else if (scanWater(this.getX()-1, this.getY()) == true) {
+        } else if (scanWater(this.getX() - 1, this.getY()) == true) {
             if (this.hasSelectedItem("Water Boot") == true) {
-                setPlayer(this.getX()-1, this.getY());
+                setPlayer(this.getX() - 1, this.getY());
                 gui.repaint();
             } else if (this.hasSelectedItem("Water Boot") == false) {
-                setPlayer(this.getX()-1, this.getY());
+                setPlayer(this.getX() - 1, this.getY());
                 gui.repaint();
                 gui.createConditionFrame(false);
             }
-        }
-        else if (scanWall(this.getX()-1, this.getY()) == true) {
+        } else if (scanWall(this.getX() - 1, this.getY()) == true) {
             gui.repaint();
-        } else if ((this.getX() == gui.waterBoots.getX()) && (this.getY() == gui.waterBoots.getY())) {
+        } else if ((this.getX() - 1 == gui.waterBoots.getX()) && (this.getY() == gui.waterBoots.getY())) {
+            setPlayer(this.getX() - 1, this.getY());
             gui.setWaterBoots(false, true);
+            gui.repaint();
             this.addItem("Water Boot");
-        } else if ((this.getX() == gui.fireBoots.getX()) && (this.getY() == gui.fireBoots.getY())) {
+        } else if ((this.getX() - 1 == gui.fireBoots.getX()) && (this.getY() == gui.fireBoots.getY())) {
+            setPlayer(this.getX() - 1, this.getY());
             gui.setFireBoots(false, true);
+            gui.repaint();
             this.addItem("Fire Boot");
         } else {
-            setPlayer(this.getX()-1, this.getY());
+            setPlayer(this.getX() - 1, this.getY());
             gui.repaint();
         }
-        gui.setBarrier(false);
 
     }
 
     /**
-     * Method supaya player bisa berjalan ke kanan menggunakan arrow keys 
+     * Method untuk menggerakkan chip ke bawah
      */
     public void moveRight() {
-        this.imageIcon=new ImageIcon("kanan.png");
-        if (scanFire(this.getX()+1, this.getY() ) == true) {
+        this.scanIC();
+        for (int i = 0; i < gui.IC.length; i++) {
+            if ((this.getX() + 1 == gui.IC[i].getX()) && (this.getY() == gui.IC[i].getY())) {
+                gui.emerge[i] = false;
+                this.setPlayer(this.getX() + 1, this.getY());
+                gui.setIC(gui.emerge);
+                gui.repaint();
+                break;
+            }
+        }
+        this.imageIcon = new ImageIcon("kanan.png");
+        if (scanFire(this.getX() + 1, this.getY()) == true) {
             if (this.hasSelectedItem("Fire Boot") == true) {
-                this.setPlayer(this.getX()+1,this.getY());
+                this.setPlayer(this.getX() + 1, this.getY());
                 gui.repaint();
             } else if (this.hasSelectedItem("Fire Boot") == false) {
-                this.setPlayer(this.getX()+1,this.getY());
+                this.setPlayer(this.getX() + 1, this.getY());
                 gui.repaint();
                 gui.createConditionFrame(false);
             }
-        } 
-        else if((this.getX()+1==gui.finish.getX())&&(this.getY()==gui.finish.getY()))
-        {
-            this.setPlayer(this.getX()+1,this.getY());
+        } else if ((this.getX() + 1 == gui.barrier.getX()) && (this.getY() == gui.barrier.getY())) {
+
+        } else if ((this.getX() + 1 == gui.finish.getX()) && (this.getY() == gui.finish.getY())) {
+            this.setPlayer(this.getX() + 1, this.getY());
             gui.repaint();
             gui.createConditionFrame(true);
-        }
-        else if((this.getX()+1==gui.Hint.getX())&&(this.getY()==gui.Hint.getY()))
-        {
-            this.setPlayer(this.getX()+1,this.getY());
+        } else if ((this.getX() + 1 == gui.Hint.getX()) && (this.getY() == gui.Hint.getY())) {
+            this.setPlayer(this.getX() + 1, this.getY());
             gui.repaint();
             gui.showHint(true);
-        }
-        else if (scanWater(this.getX()+1, this.getY()) == true) {
+        } else if (scanWater(this.getX() + 1, this.getY()) == true) {
             if (this.hasSelectedItem("Water Boot") == true) {
-                setPlayer(this.getX()+1, this.getY());
+                setPlayer(this.getX() + 1, this.getY());
                 gui.repaint();
             } else if (this.hasSelectedItem("Water Boot") == false) {
-                setPlayer(this.getX()+1, this.getY());
+                setPlayer(this.getX() + 1, this.getY());
                 gui.repaint();
                 gui.createConditionFrame(false);
             }
-        }
-        else if (scanWall(this.getX()+1, this.getY()) == true) {
+        } else if (scanWall(this.getX() + 1, this.getY()) == true) {
             gui.repaint();
-        } else if ((this.getX() == gui.waterBoots.getX()) && (this.getY() == gui.waterBoots.getY())) {
+        } else if ((this.getX() + 1 == gui.waterBoots.getX()) && (this.getY() == gui.waterBoots.getY())) {
+            setPlayer(this.getX() + 1, this.getY());
             gui.setWaterBoots(false, true);
+            gui.repaint();
             this.addItem("Water Boot");
-        } else if ((this.getX() == gui.fireBoots.getX()) && (this.getY() == gui.fireBoots.getY())) {
+        } else if ((this.getX() + 1 == gui.fireBoots.getX()) && (this.getY() == gui.fireBoots.getY())) {
+            setPlayer(this.getX() + 1, this.getY());
             gui.setFireBoots(false, true);
+            gui.repaint();
             this.addItem("Fire Boot");
         } else {
-            setPlayer(this.getX()+1, this.getY());
+            setPlayer(this.getX() + 1, this.getY());
             gui.repaint();
         }
-        gui.setBarrier(false);
 
     }
+
     /**
-     * Method yang berfungsi untuk mengidentifikasikan apakah ada api atau tidak di sekeliling player dalam chip challenge
-     * @param x koordinat x
-     * @param y koordinat y
-     * @return true player akan mati jika menyentuh api, atau menginjak api
-     * @return false player aman jika di sekelilingnya tidak ada api
+     * method untuk mengecek apakah ada fire atau tidak
+     *
+     * @param x posisi player
+     * @param y posisi player
+     * @return true apabila terdapat fire dan false apabila tidak ada api
      */
     public boolean scanFire(int x, int y) {
         boolean result = false;
         for (int i = 0; i < gui.fire.length; i++) {
             if ((gui.fire[i].getX() == x) && (gui.fire[i].getY() == y)) {
-                if(gui.fire[i].getX()>0)
-                {
+                if (gui.fire[i].getX() > 0) {
                     result = true;
                 }
-                
                 break;
             }
         }
         return result;
     }
+
     /**
-     * Method yang berfungsi untuk mengidentifikasikan apakah ada dinding atau tidak di sekeliling player dalam chip challenge
-     * @param x koordinat x
-     * @param y koordinat y
-     * @return true jika di sekeliling player ada dinding, dan player tidak bisa menembus dinding.
+     * method untuk mengecek apakah ada tembok atau tidak
+     *
+     * @param x posisi player
+     * @param y posisi player
+     * @return apakah ada tembok di posisi sesudah player bergerak
      */
     public boolean scanWall(int x, int y) {
         boolean result = false;
@@ -438,37 +487,55 @@ public class Chip extends Component implements ActionListener, KeyListener{
         }
         return result;
     }
+
     /**
-     * Method yang berfungsi untuk mengidentifikasikan apakah ada air atau tidak di sekeliling player dalam chip challenge
-     * @param x koordinat x
-     * @param y koordinat y
-     * @return true player akan mati jika menyentuh air, atau menginjak air
-     * @return false player aman jika di sekelilingnya tidak ada air
+     * method untuk mengecek apakah ada air atau tidak
+     *
+     * @param x posisi player
+     * @param y posisi player
+     * @return true apabila terdapat air dan false apabila tidak ada air
      */
     public boolean scanWater(int x, int y) {
         boolean result = false;
         for (int i = 0; i < gui.water.length; i++) {
-           if ((gui.water[i].getX() == x) && (gui.water[i].getY() == y)) {
-                if(gui.water[i].getX()>0)
-                {
+            if ((gui.water[i].getX() == x) && (gui.water[i].getY() == y)) {
+                if (gui.water[i].getX() > 0) {
                     result = true;
                 }
-                
+
                 break;
             }
-            }
+        }
         return result;
-}
+    }
+
     /**
-     * Method untuk menyimpan player ke dalam koordinat di papan permainan challenge
-     * @param x koordinat x
-     * @param y koordinat y
+     * method untuk mengecek apakah terdapat ic atau tidak
+     */
+    public void scanIC() {
+        int ct = 0;
+        for (int i = 0; i < gui.emerge.length; i++) {
+            if (gui.emerge[i] == false) {
+                ct++;
+            }
+        }
+        if (ct == gui.emerge.length) {
+            gui.setBarrier(false);
+        }
+    }
+
+    /**
+     * method untuk mengeset posisi player di papan permainan
+     *
+     * @param x posisi player
+     * @param y posisi player
      */
     public void setPlayer(int x, int y) {
-        this.x=x;
-        this.y=y;
+        this.x = x;
+        this.y = y;
         b.setPlayer(this);
     }
+
     @Override
     public void keyReleased(KeyEvent e) {
     }
@@ -476,4 +543,5 @@ public class Chip extends Component implements ActionListener, KeyListener{
     @Override
     public void actionPerformed(ActionEvent e) {
     }
+
 }

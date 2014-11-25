@@ -7,7 +7,6 @@ package View;
 
 import Controller.Board;
 import Model.*;
-import Model.Component;
 import java.awt.*;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -18,25 +17,28 @@ import javax.swing.JOptionPane;
  * @author Enricofindley  (2013730008)
  * @author Yohanes Ediwan (2013730044)
  */
-public class ChipGUI extends javax.swing.JFrame {
+public class Level1 extends javax.swing.JFrame implements Level {
 
     private Board b;
-    public Component[] fire = new Component[7];
-    public Component[] water = new Component[7];
-    public Component[] wall = new Component[26];
+    public Fire[] fire = new Fire[7];
+    public Water[] water = new Water[7];
+    public Wall[] wall = new Wall[26];
     public JFrame conditionFrame;
     public Chip player;
     public Finish finish;
-    public Component fireBoots, waterBoots;
-    public Component Hint;
+    public FireBoot fireBoots;
+    public WaterBoot waterBoots;
+    public Hint Hint;
+    public Barrier barrier;;
+    public boolean[] emerge = {true, true, true, true, true};
+    public IC[] IC;
+    public boolean finished = true;
 
     /**
      * Creates new form ChipGUI
      */
-    public ChipGUI() {
+    public Level1() {
         initComponents();
-        JOptionPane pane = new JOptionPane();
-        pane.showInputDialog(rootPane, "Enter Your Name", "Start Game", 0);
         setBoard();
         this.repaint();
         this.player=new Chip(4, 4, b, this);
@@ -74,6 +76,7 @@ public class ChipGUI extends javax.swing.JFrame {
     /**
      * Setter method untuk papan permainan pada GUI
      */
+    @Override
     public void setBoard() {
         this.setTitle("Chip Challenge");
         b = (new Board(9, 9));
@@ -84,7 +87,6 @@ public class ChipGUI extends javax.swing.JFrame {
         this.setFireBoots(true, true);
         this.setFire();
         this.setWater();
-        boolean[] emerge = {true, true, true, true, true};
         this.setIC(emerge);
         this.setWall();
         this.add(b);
@@ -94,6 +96,7 @@ public class ChipGUI extends javax.swing.JFrame {
     /**
      * Setter method untuk jalan keluar dalam permainan di GUI
      */
+    @Override
     public void setFinish() {
         finish = new Finish(4, 0);
         b.setFinish(finish);
@@ -102,16 +105,18 @@ public class ChipGUI extends javax.swing.JFrame {
     /**
      * Setter method untuk bantuan menyelesaikan permainan di GUI
      */
-    private void setHint() {
+    @Override
+    public void setHint() {
         Hint = new Hint(0, 5);
         b.setHint(Hint);
     }
 
     /**
      * Setter method untuk penghalang permainan di GUI
+     * @param appears
      */
+    @Override
     public void setBarrier(boolean appears) {
-        Component barrier;
         if (appears == true) {
             barrier = new Barrier(4, 1);
         } else {
@@ -122,10 +127,13 @@ public class ChipGUI extends javax.swing.JFrame {
 
     /**
      * Setter method untuk sepatu yang membuat pemain dapat melintasi air di GUI
+     * @param emerge
+     * @param die
      */
-    public void setWaterBoots(boolean emerge, boolean die) {
+    @Override
+    public void setWaterBoots(boolean emerge,boolean die) {
         if (emerge == true) {
-            waterBoots = new WaterBoot(0, 0);
+            waterBoots = new WaterBoot(0, 3);
         } else {
             waterBoots = new WaterBoot(-5, -5);
             die = false;
@@ -135,6 +143,8 @@ public class ChipGUI extends javax.swing.JFrame {
 
     /**
      * Setter method untuk sepatu yang membuat pemain dapat melintasi api di GUI
+     * @param emerge
+     * @param die
      */
     public void setFireBoots(boolean emerge, boolean die) {
         if (emerge == true) {
@@ -148,9 +158,11 @@ public class ChipGUI extends javax.swing.JFrame {
 
     /**
      * Setter method untuk ic dalam permainan di GUI
+     * @param emerge
      */
+    @Override
     public void setIC(boolean[] emerge) {
-        Component[] IC = new Component[5];
+        IC = new IC[5];
         if (emerge[0] == true) {
             IC[0] = new IC(1, 0);
         } else {
@@ -266,6 +278,10 @@ public class ChipGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public static void main(String[] args)
+    {
+        new Level1().setVisible(true);
+    }
     /**
      * Method untuk membuat popup window jika game selesai
      * @param isWin penanda apakah player menang atau kalah
@@ -279,7 +295,7 @@ public class ChipGUI extends javax.swing.JFrame {
             else 
             {
                 this.dispose();
-                new ChipGUI().setVisible(true);
+                new Level1().setVisible(true);
             }
         }
         else
@@ -289,45 +305,10 @@ public class ChipGUI extends javax.swing.JFrame {
             } 
             else {
                 this.dispose();
-                new ChipGUI().setVisible(true);
+                new Level1().setVisible(true);
             }
         }
         
-    }
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ChipGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ChipGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ChipGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ChipGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ChipGUI().setVisible(true);
-            }
-        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -11,7 +11,7 @@ package Controller;
  * @author Enricofindley  (2013730008)
  * @author Yohanes Ediwan (2013730044)
  */
-import Model.Chip;
+import Model.*;
 import Model.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -33,17 +33,17 @@ public class Board extends JPanel {
     /**
      * Jalan keluar pada permainan
      */
-    public Component finish;
+    public Finish finish;
     
     /**
      * penghalang chip sebelum masuk ke finish
      */
-    public Component barrier;
+    public Barrier barrier;
     
     /**
      * Bantuan untuk menyelesaikan puzzle permainan
      */
-    public Component hint;
+    public Hint hint;
     
     /**
      * Player dalam permainan
@@ -53,32 +53,32 @@ public class Board extends JPanel {
     /**
      * Sepatu untuk dapat membuat player melintasi air
      */
-    public Component waterBoots;
+    public WaterBoot waterBoots;
     
     /**
      * Sepatu untuk dapat membuat player melintasi api
      */
-    public Component fireBoots;
+    public FireBoot fireBoots;
     
     /**
      * IC sebagai syarat terbukanya barrier
      */
-    public Component[] IC;
+    public IC[] IC;
     
     /**
      * Api yang dapat membakar pemain
      */
-    public Component[] fire;
+    public Fire[] fire;
     
     /**
      * Air yang dapat menenggelamkan pemain
      */
-    public Component[] water;
+    public Water[] water;
     
     /**
      * Tembok sebagai penghalang jalan pemain
      */
-    public Component[] wall;
+    public Wall[] wall;
 
     /**
      * Constructor untuk menginisialisasi atribut
@@ -140,7 +140,7 @@ public class Board extends JPanel {
      * Setter method untuk Jalan keluar pada permainan
      * @param finish jalan keluar dari permainan
      */
-    public void setFinish(Component finish) {
+    public void setFinish(Finish finish) {
         this.finish = finish;
     }
 
@@ -148,7 +148,7 @@ public class Board extends JPanel {
      * Setter method untuk penghalang jalan pemain menuju finish
      * @param barrier penghalang jalan pemain menuju finish
      */
-    public void setBarrier(Component barrier) {
+    public void setBarrier(Barrier barrier) {
         this.barrier = barrier;
     }
     
@@ -156,7 +156,7 @@ public class Board extends JPanel {
      * Setter method untuk bantuan menyelesaikan permainan
      * @param hint bantuan untuk menyelesaikan permainan
      */
-    public void setHint(Component hint) {
+    public void setHint(Hint hint) {
         this.hint = hint;
     }
 
@@ -172,7 +172,7 @@ public class Board extends JPanel {
      * Setter method untuk sepatu yang dapat membuat pemain berjalan di air
      * @param waterBoots sepatu yang dapat membuat pemain berjalan di air
      */
-    public void setWaterBoots(Component waterBoots)
+    public void setWaterBoots(WaterBoot waterBoots)
     {
         this.waterBoots = waterBoots;
     }
@@ -181,7 +181,7 @@ public class Board extends JPanel {
      * Setter method untuk sepatu yang dapat membuat pemain berjalan di api
      * @param fireBoots sepatu yang dapat membuat pemain berjalan di api
      */
-    public void setFireBoots(Component fireBoots) {
+    public void setFireBoots(FireBoot fireBoots) {
         this.fireBoots = fireBoots;
     }
     
@@ -189,7 +189,7 @@ public class Board extends JPanel {
      * Setter method untuk ic yang menjadi syarat terbukanya barrier
      * @param IC ic pada permainan chip challenge
      */
-    public void setIC(Component[] IC) {
+    public void setIC(IC[] IC) {
         this.IC = IC;
     }
     
@@ -197,7 +197,7 @@ public class Board extends JPanel {
      * Setter method untuk api yang dapat membakar pemain
      * @param fire api yang membakar pemain
      */
-    public void setFire(Component[] fire) {
+    public void setFire(Fire[] fire) {
         this.fire = fire;
     }
     
@@ -205,7 +205,7 @@ public class Board extends JPanel {
      * Setter method untuk air yang dapat membakar pemain
      * @param water air yang membakar pemain
      */
-    public void setWater(Component[] water) {
+    public void setWater(Water[] water) {
         this.water = water;
     }
     
@@ -213,7 +213,7 @@ public class Board extends JPanel {
      * Setter method untuk penghalang jalan pemain
      * @param wall penghalang jalan pemain
      */
-    public void setWall(Component[] wall) {
+    public void setWall(Wall[] wall) {
         this.wall = wall;
     }
 }
