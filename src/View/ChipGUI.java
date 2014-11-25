@@ -24,7 +24,7 @@ public class ChipGUI extends javax.swing.JFrame {
     public Component[] fire = new Component[7];
     public Component[] water = new Component[7];
     public Component[] wall = new Component[26];
-    JFrame conditionFrame;
+    public JFrame conditionFrame;
     public Chip player;
     public Finish finish;
     public Component fireBoots, waterBoots;
@@ -45,10 +45,10 @@ public class ChipGUI extends javax.swing.JFrame {
         setFocusTraversalKeysEnabled(false);
         this.setVisible(false);
     }
-  /**
-   * Override method paint milik JFrame
-   * @param g graphic program
-   */
+    /**
+    * Override method paint milik JFrame
+    * @param g graphic program
+    */
     @Override
     public void paint(Graphics g) {
         b.paint(g);
@@ -62,7 +62,7 @@ public class ChipGUI extends javax.swing.JFrame {
     {
         if(show == true)
         {
-            JOptionPane.showMessageDialog(rootPane, "1.Take the fire boots to go through the flames \n2.Take the water boots to go through the water \n3.Collect all the IC to break the barrier ", "Hint", 0);
+            JOptionPane.showMessageDialog(rootPane, "1.Take the fire boots to go through to the flames \n2.Take the water boots to go through to the water \n3.Collect all the IC to break the barrier ", "Hint", 0);
         }
         else
         {
@@ -273,10 +273,11 @@ public class ChipGUI extends javax.swing.JFrame {
     public void createConditionFrame(boolean isWin) {
         if(isWin == true)
         {
-            if (JOptionPane.showOptionDialog(rootPane, "Congratulation !! You Are Win!! \n Do You Want To Play Again ?", "Game Over", 0, 2, null, null, null) == 1) {
+            if (JOptionPane.showOptionDialog(rootPane, "Congratulations !! You Won!! \n Wanna Play Again ?", "Game Over", 0, 2, null, null, null) == 1) {
                 this.dispose();
             } 
-            else {
+            else 
+            {
                 this.dispose();
                 new ChipGUI().setVisible(true);
             }

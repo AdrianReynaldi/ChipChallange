@@ -17,16 +17,35 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 /**
- * Kelas yang merepresentasikan objek chip
- * @author microsoft
+ * Chip adalah player dari permainan Chip Challenge 
+ * @author Adrian Reynaldi(2013730058)
+ * @author Enricofindley  (2013730008)
+ * @author Yohanes Ediwan (2013730044)
  */
 public class Chip extends Component implements ActionListener, KeyListener{
+    // Atribut untuk menyatakan inventory pada permainan Chip Challenge
+    // Inventory di representasikan dalam bentuk ArrayList
+    // dimana banyaknya component-component dalam permainan Chip Challenge tidak diketahui panjangnya
     private ArrayList<String> inventory;
+    // Atribut untuk menyatakan player pada permainan Chip Challenge
     protected Component player;
+    // Atribut untuk menyatakan papan permainan.
     protected Board b;
+    // Atribut yang merupakan Objek gui dari kelas Chip GUI
     protected ChipGUI gui;
+    // Atribut yang merupakan objek Icon Image dari kelas Image Icon 
     protected ImageIcon imageIcon;
+    // Atribut yang merupakan objek finish dari kelas Finish
     protected Finish finish;
+    
+    /**
+     * Konstruktor dari kelas Chip, sekaligus memanggil konstruktor Chip yang ada di Component
+     * @param x
+     * @param y
+     * @param warna
+     * @param b
+     * @param gui 
+     */
     public Chip(int x, int y,Board b,ChipGUI gui) {
         super(x, y);
         this.imageIcon=new ImageIcon("bawah.png");
@@ -35,12 +54,22 @@ public class Chip extends Component implements ActionListener, KeyListener{
         inventory = new ArrayList<String>();
         this.setPlayer(x,y);
     }
-    
+    /**
+     * Method yang berfungsi untuk menambahkan Item baru ke dalam inventory pada permainan Chip Challenge.
+     * @param item baru yang ingin diambil
+     */
     public void addItem(String item)
     {
         inventory.add(item);
     }
-   
+    /**
+     * Method yang berguna untuk mengecek apakah player dalam permainan Chip Challenge ini sudah mempunyai item yang udah diambil atau belom
+     * @param selectedItem Item yang dipilih
+     * @return true jika item dalam permainan Chip Challenge sudah diambil oleh player nya.
+     * @return false jika item dalam permainan Chip Challenge belom diambil oleh player nya.
+     * Contoh nya : Player dalam permainan Chip Challenge ini jika sudah mengambil sepatu tahan air, player dapat berjalan di atas air.
+     *              Jika player dalam permainan Chip Challenge ini belum mengambil sepatu tahan air, player tidak dapat berjalan di atas air  
+     */
     public boolean hasSelectedItem(String selectedItem)
     {
         boolean result = false;
@@ -57,7 +86,12 @@ public class Chip extends Component implements ActionListener, KeyListener{
         }
         return result;
     }
-    
+    /**
+     * Method yang meng-override method Gambar yang ada di kelas Component
+     * Method component yang di override adalah image player/ image Chip.
+     * @return gambar player dalam permainan chip challengeyang diperoleh. 
+     * Gambar player akan ditampilkan ke dalam bentuk GUI yang diambil dari folder penyimpanan
+     */
     @Override
     public Image getGambar()
     {
@@ -69,7 +103,11 @@ public class Chip extends Component implements ActionListener, KeyListener{
     public void keyTyped(KeyEvent e) {
         
     }
-
+    
+    /**
+     * Method yang berfungsi untuk menggerakan pemain, dengan menggunakan arrow key
+     * @param moveKey (W,A,S,D);
+     */
     @Override
     public void keyPressed(KeyEvent moveKey) {
         int arrowKey = moveKey.getKeyCode();
@@ -152,7 +190,9 @@ public class Chip extends Component implements ActionListener, KeyListener{
         }
 
     }
-    
+    /**
+     * Method supaya player bisa berjalan ke atas menggunakan arrow keys 
+     */
     public void moveUp() {
         this.imageIcon=new ImageIcon("atas.png");
         if (scanFire(this.getX(), this.getY() - 1) == true) {
@@ -204,7 +244,7 @@ public class Chip extends Component implements ActionListener, KeyListener{
     }
 
     /**
-     * Method untuk menggerakkan chip ke bawah
+     * Method supaya player bisa berjalan ke bawah menggunakan arrow keys 
      */
     public void moveDown() {
          this.imageIcon=new ImageIcon("bawah.png");
@@ -257,7 +297,7 @@ public class Chip extends Component implements ActionListener, KeyListener{
     }
 
     /**
-     * Method untuk menggerakkan chip ke kiri
+     * Method supaya player bisa berjalan ke kiri menggunakan arrow keys 
      */
     public void moveLeft() {
          this.imageIcon=new ImageIcon("kiri.png");
@@ -310,7 +350,7 @@ public class Chip extends Component implements ActionListener, KeyListener{
     }
 
     /**
-     * Method untuk menggerakkan chip ke bawah
+     * Method supaya player bisa berjalan ke kanan menggunakan arrow keys 
      */
     public void moveRight() {
         this.imageIcon=new ImageIcon("kanan.png");
@@ -361,7 +401,13 @@ public class Chip extends Component implements ActionListener, KeyListener{
         gui.setBarrier(false);
 
     }
-
+    /**
+     * Method yang berfungsi untuk mengidentifikasikan apakah ada api atau tidak di sekeliling player dalam chip challenge
+     * @param x koordinat x
+     * @param y koordinat y
+     * @return true player akan mati jika menyentuh api, atau menginjak api
+     * @return false player aman jika di sekelilingnya tidak ada api
+     */
     public boolean scanFire(int x, int y) {
         boolean result = false;
         for (int i = 0; i < gui.fire.length; i++) {
@@ -376,7 +422,12 @@ public class Chip extends Component implements ActionListener, KeyListener{
         }
         return result;
     }
-
+    /**
+     * Method yang berfungsi untuk mengidentifikasikan apakah ada dinding atau tidak di sekeliling player dalam chip challenge
+     * @param x koordinat x
+     * @param y koordinat y
+     * @return true jika di sekeliling player ada dinding, dan player tidak bisa menembus dinding.
+     */
     public boolean scanWall(int x, int y) {
         boolean result = false;
         for (int i = 0; i < gui.wall.length; i++) {
@@ -387,7 +438,13 @@ public class Chip extends Component implements ActionListener, KeyListener{
         }
         return result;
     }
-
+    /**
+     * Method yang berfungsi untuk mengidentifikasikan apakah ada air atau tidak di sekeliling player dalam chip challenge
+     * @param x koordinat x
+     * @param y koordinat y
+     * @return true player akan mati jika menyentuh air, atau menginjak air
+     * @return false player aman jika di sekelilingnya tidak ada air
+     */
     public boolean scanWater(int x, int y) {
         boolean result = false;
         for (int i = 0; i < gui.water.length; i++) {
@@ -402,9 +459,11 @@ public class Chip extends Component implements ActionListener, KeyListener{
             }
         return result;
 }
-    
-
-    
+    /**
+     * Method untuk menyimpan player ke dalam koordinat di papan permainan challenge
+     * @param x koordinat x
+     * @param y koordinat y
+     */
     public void setPlayer(int x, int y) {
         this.x=x;
         this.y=y;
@@ -417,5 +476,4 @@ public class Chip extends Component implements ActionListener, KeyListener{
     @Override
     public void actionPerformed(ActionEvent e) {
     }
-    
 }
